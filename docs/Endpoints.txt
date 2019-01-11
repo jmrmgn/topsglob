@@ -1,0 +1,19 @@
+/* POSTS */
+/posts                  GET        | PUBLIC    | get all posts
+/posts                  POST       | PRIVATE   | create a post
+/posts/:postId          GET        | PUBLIC    | get single post
+/posts/:postId          DELETE     | PRIVATE   | delete a post
+/posts/:postId          PUT        | PRIVATE   | update a post
+/posts/:postId/likes    GET        | PUBLIC    | get users who like post
+/posts/:postId/like     PUT        | PRIVATE   | like a post
+/posts/:postId/unlike   PUT        | PRIVATE   | unlike a post
+
+/* USERS */
+/users/register         POST       | PUBLIC    | register new user
+/users/login            POST       | PUBLIC    | login user
+/users/profile          GET        | PRIVATE   | get profile
+/users/profile          PUT        | PRIVATE   | update user's profile
+/users                  GET        | PUBLIC    | get all users
+/users/:userId          GET        | PUBLIC    | get single user
+/users/:userId/posts    GET        | PUBLIC    | view single user's posts
+/users/:userId/change_password PUT | PRIVATE   | user change password
