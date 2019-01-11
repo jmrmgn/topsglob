@@ -1,0 +1,103 @@
+/* Models */
+User
+   - username: { required, 3-15 alphanumeric w/o space }
+   - email: { required, valid email }
+   - password: { required, 8-50 characters }
+   - bio: { 10-200 characters }
+   - created_at { required, timestamp }
+   - updated_at { required, timestap }
+
+Post
+   - content { required, 10-500 characters }
+   - user (refs 'User') { required }
+   - likes: [
+      { userId }
+   ]
+   - created_at { required }
+
+/* Features */
+Users can register and login
+Users can update their info (Private)
+Users can change password (Private)
+Users can view other user
+Users can view all users
+Users can view who the hell likes their post(s)
+
+Users can view posts 
+Users can view single post
+Users can create post (Private)
+Users can delete post (Private)
+Users can toggle like post (Private)
+
+/* Page design */
+Navbar
+   - Public (LEFT: Brand name, Home, Posts, Users; RIGHT: Register, Login)
+   - Private (LEFT: Brand name, Home, Posts, Users; RIGHT: @name-Dropdown["profile", "settings", "logout"])
+Home: {
+   path: /,
+   content: n/a
+}
+
+Posts: {
+   path: /posts,
+   content: {
+      - all posts (view single post, with toggle like, can view likers)
+      - can create new post(TOP of posts): {
+         path: /posts(POST)
+      }
+   }
+}
+
+Post: {
+   path: /posts/:postId,
+   content: {
+      - single post (with toggle like, can view likers)
+   }
+   conditional: {
+      - can delete post if it user owns it
+   }
+}
+
+Users: {
+   path: /users,
+   content: {
+      - list of all users (view single user)
+   }
+}
+
+User: {
+   path: /users/:userId,
+   content: {
+      - user's profile
+      - user's posts
+   }
+}
+
+Register: {
+   path: /register
+   content: {
+      registration form: [username, email, password, confirm password]
+   }
+}
+
+Login: {
+   path: /login
+   content: {
+      login form: [username, password]
+   }
+}
+
+Profile: {
+   path: /profile,
+   content: {
+      - logged in user's profile
+      - logged in user's posts 
+   }
+}
+
+Settings: {
+   path: /settings,
+   content: {
+      - change password form: ["current password", new password, confirm password]
+   }
+}
