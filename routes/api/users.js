@@ -9,6 +9,28 @@ const usersController = require('../../controllers/usersController');
 const userValidation = require('../../validation/users');
 
 /*
+   @route      GET api/users/
+   @desc       Get all users
+   @accecss    PUBLIC
+*/
+router.get(
+   '/',
+   usersController.getUsers
+);
+
+
+/*
+   @route      GET api/users/:userId
+   @desc       Get single user
+   @accecss    PUBLIC
+*/
+router.get(
+   '/:userId',
+   usersController.getUser
+);
+
+
+/*
    @route      POST api/users/register
    @desc       Register user
    @accecss    PUBLIC
@@ -18,6 +40,7 @@ router.post(
    userValidation.validateRegister,
    usersController.postRegister
 );
+
 
 /*
    @route      POST api/users/login
@@ -29,6 +52,7 @@ router.post(
    userValidation.validateLogin,
    usersController.postLogin
 );
+
 
 /*
    @route      GET api/users/current

@@ -6,6 +6,27 @@ const keys = require('../config/keys');
 
 const User = require('../models/User');
 
+exports.getUsers = async (req, res, next) => {
+   try {
+      const users = await User.find().select('-password -updatedAt').exec();
+      return (!users) ? res.json({}) : res.json(users);
+   }
+   catch (err) {
+      (!err.statusCode) ? (err.statusCode = 500) : next(err.errors);
+   }
+};
+
+exports.getUser = async (req, res, next) => {
+   try {
+      const userId = req.params.userId;
+      const user = await User.findById(userId).select('-password -updatedAt').exec();
+      return (!user) ? res.status(404).json({ errors: "User not found" }) : res.json(user);
+   }
+   catch (err) {
+      (!err.statusCode) ? (err.statusCode = 500) : next(err.errors);
+   }
+};
+
 exports.postRegister = async (req, res, next) => {
    try {
       const errors = validationResult(req);
@@ -26,7 +47,7 @@ exports.postRegister = async (req, res, next) => {
       });
 
       await userData.save();
-      res.status(201).json(userData);
+      res.status(201).json({ msg: "Successfully registered" });
    }
    catch (err) {
       (!err.statusCode) ? (err.statusCode = 500) : next(err.errors);
