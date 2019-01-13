@@ -1,3 +1,4 @@
 module.exports = {
-   mongoURI: 'mongodb://localhost/mern-topsglob'
+   mongoURI: 'mongodb://localhost/mern-topsglob',
+   secret: 'sikretongmalupet'
 }

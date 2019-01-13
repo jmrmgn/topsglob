@@ -9,8 +9,9 @@
 /posts/:postId/unlike   PUT        | PRIVATE   | unlike a post
 
 /* USERS */
-/users/register         POST       | PUBLIC    | register new user
-/users/login            POST       | PUBLIC    | login user
+DONE /users/register         POST       | PUBLIC    | register new user
+DONE /users/login            POST       | PUBLIC    | login user
+DONE /users/current          GET        | PRIVATE   | get the current user
 /users/profile          GET        | PRIVATE   | get profile
 /users/profile          PUT        | PRIVATE   | update user's profile
 /users                  GET        | PUBLIC    | get all users

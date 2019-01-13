@@ -1,4 +1,4 @@
-const { body } = require('express-validator/check');
+const { body, check } = require('express-validator/check');
 
 const User = require('../models/User');
 
@@ -26,5 +26,11 @@ module.exports = {
       body('password')
          .isLength({ min: 8, max: 100 }).withMessage('Password must be at least 8 characters')
          .trim()
+   ],
+   validateLogin: [
+      body('username')
+         .not().isEmpty().withMessage('Username is required'),
+      body('password')
+         .not().isEmpty().withMessage('Password is required'),
    ]
 };
