@@ -8,7 +8,7 @@ const User = require('../models/User');
 
 exports.getUsers = async (req, res, next) => {
    try {
-      const users = await User.find().select('-password -updatedAt').exec();
+      const users = await User.find().select('-password').exec();
       return (!users) ? res.json({}) : res.json(users);
    }
    catch (err) {
@@ -19,7 +19,7 @@ exports.getUsers = async (req, res, next) => {
 exports.getUser = async (req, res, next) => {
    try {
       const userId = req.params.userId;
-      const user = await User.findById(userId).select('-password -updatedAt').exec();
+      const user = await User.findById(userId).select('-password').exec();
       return (!user) ? res.status(404).json({ errors: "User not found" }) : res.json(user);
    }
    catch (err) {
@@ -89,6 +89,39 @@ exports.postLogin = async (req, res, next) => {
          }
       }
 
+   }
+   catch (err) {
+      (!err.statusCode) ? (err.statusCode = 500) : next(err.errors);
+   }
+};
+
+exports.getUserProfile = async (req, res, next) => {
+   try {
+      res.json(req.user);
+   }
+   catch (err) {
+      (!err.statusCode) ? (err.statusCode = 500) : next(err.errors);
+   }
+};
+
+exports.putUserProfile = async (req, res, next) => {
+   try {
+      const errors = validationResult(req);
+
+      if (!errors.isEmpty()) {
+         return res.status(422).json({ errors: errors.array() });
+      }
+      
+      const user = await User.findById(req.user._id);
+
+      if (!user) {
+         return res.status(404).json({ errors: "Not found" });
+      }
+      else {
+         user.bio = req.body.bio;
+         await user.save();
+         return res.status(201).json({ msg: "Profile successfully updated" });
+      }
    }
    catch (err) {
       (!err.statusCode) ? (err.statusCode = 500) : next(err.errors);

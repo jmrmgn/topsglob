@@ -20,6 +20,31 @@ router.get(
 
 
 /*
+   @route      GET api/users/
+   @desc       Get current user profile
+   @accecss    PRIVATE
+*/
+router.get(
+   '/profile',
+   passport.authenticate('jwt', { session: false }),
+   usersController.getUserProfile
+);
+
+
+/*
+   @route      PUT api/users/profile
+   @desc       Update current user profile
+   @accecss    PRIVATE
+*/
+router.put(
+   '/profile',
+   passport.authenticate('jwt', { session: false }),
+   userValidation.validatePutCurrentProfile,
+   usersController.putUserProfile
+);
+
+
+/*
    @route      GET api/users/:userId
    @desc       Get single user
    @accecss    PUBLIC

@@ -40,5 +40,9 @@ module.exports = {
          .not().isEmpty().withMessage('Username is required'),
       body('password')
          .not().isEmpty().withMessage('Password is required'),
+   ],
+   validatePutCurrentProfile: [
+      body('bio')
+         .isLength({ max: 200 }).withMessage('Bio can\'t exceed of 200 characters')
    ]
 };
