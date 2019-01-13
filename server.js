@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const expressValidator = require('express-validator');
 
 const app = express();
 
@@ -12,8 +13,16 @@ const usersRoute = require('./routes/api/users');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+app.use(expressValidator());
 
 app.use('/api/users', usersRoute);
+
+app.use((error, req, res, next) => {
+   const status = error.statusCode || 500;
+   const message = error.message;
+   const data = error.data;
+   res.status(status).json({message: message, data: data});
+});
 
 mongoose.connect(
    keys.mongoURI,
