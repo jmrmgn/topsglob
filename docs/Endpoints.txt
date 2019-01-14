@@ -3,7 +3,7 @@ DONE /posts                  GET        | PUBLIC    | get all posts
 DONE /posts                  POST       | PRIVATE   | create a post
 DONE /posts/:postId          GET        | PUBLIC    | get single post
 DONE /posts/:postId          DELETE     | PRIVATE   | delete a post
-/posts/:postId          PUT        | PRIVATE   | update a post
+DONE /posts/:postId          PUT        | PRIVATE   | update a post
 /posts/:postId/likes    GET        | PUBLIC    | get users who like post
 /posts/:postId/like     PUT        | PRIVATE   | like a post
 /posts/:postId/unlike   PUT        | PRIVATE   | unlike a post

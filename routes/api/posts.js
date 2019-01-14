@@ -40,10 +40,24 @@ router.get(
    postsController.getPost
 );
 
+
 /*
-   @route      GET api/posts/:postId
-   @desc       Get single post
-   @accecss    PUBLIC
+   @route      PUT api/posts/:postId
+   @desc       Update single post
+   @accecss    PRIVATE
+*/
+router.put(
+   '/:postId',
+   passport.authenticate('jwt', { session: false}),
+   postValidation.validatePostPost, // Same validation for posting
+   postsController.putPost
+);
+
+
+/*
+   @route      DELETE api/posts/:postId
+   @desc       Delete single post
+   @accecss    PRIVATE
 */
 router.delete(
    '/:postId',

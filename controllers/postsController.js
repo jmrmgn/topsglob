@@ -58,6 +58,36 @@ exports.postPost = async (req, res, next) => {
    }
 };
 
+exports.putPost = async (req, res, next) => {
+   try {
+
+      const post = await Post.findById(req.params.postId);
+      if (!post) {
+         return next(throwError("Post not found", 404));
+      }
+      else {
+         if ( post.user.toString() === req.user._id.toString()) {
+
+            const errors = validationResult(req);
+
+            if (!errors.isEmpty()) {
+               return next(throwError(errors.array(), 422));
+            }
+            
+            post.content = req.body.content;
+            await post.save();
+            return res.status(201).json({ msg: "Post successfully updated" });
+         }
+         else {
+            return next(throwError("Unauthorized", 401));
+         }
+      }
+   }
+   catch (err) {
+      next(err);
+   }
+};
+
 exports.deletePost = async (req, res, next) => {
    try {
       const post = await Post.findById(req.params.postId);
