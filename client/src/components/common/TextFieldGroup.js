@@ -1,8 +1,10 @@
 import React from 'react';
+import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
 const TextFieldGroup = props => {
    const { label, type, name, placeholder, value, error, onChange } = props;
+
    return (
       <div className="field">
          <label htmlFor={name}>{label}</label>
@@ -10,13 +12,20 @@ const TextFieldGroup = props => {
             <input
                type={type}
                name={name}
-               className="input"
+               className={classnames('input')}
                placeholder={placeholder}
                onChange={onChange}
                value={value}
             />
          </div>
-         {error && <p className="help has-text-danger">This is a help text</p>}
+         {
+            error.length > 0 &&
+               error.map((err, index) => {
+                  return (
+                     err.param === name && <p className="help has-text-danger" key={index} >{err.msg}</p>
+                  );
+               })
+         }
       </div>
    );
 };
@@ -27,7 +36,7 @@ TextFieldGroup.propTypes = {
    type: PropTypes.string.isRequired,
    placeholder: PropTypes.string,
    value: PropTypes.string,
-   error: PropTypes.string,
+   error: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
    onChange: PropTypes.func.isRequired
 };
 

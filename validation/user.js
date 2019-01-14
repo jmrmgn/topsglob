@@ -25,15 +25,16 @@ module.exports = {
          .trim(),
       body('password')
          .isLength({ min: 8, max: 100 }).withMessage('Password must be at least 8 characters')
+         .trim(),
+      body('confirmPassword')
          .custom((value, {req}) => {
-            if (value !== req.body.confirmPassword) {
+            if (value !== req.body.password) {
                throw new Error('Passwords doesn\'t match');
             }
             else {
                return true;
             }
          })
-         .trim()
    ],
    validateLogin: [
       body('username')

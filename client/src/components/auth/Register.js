@@ -1,4 +1,9 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
+import { connect } from 'react-redux';
+import { postRegister } from '../../actions/authActions';
+
 import TextFieldGroup from '../common/TextFieldGroup';
 
 class Register extends Component {
@@ -7,7 +12,14 @@ class Register extends Component {
       username: '',
       email: '',
       password: '',
-      confirmPassword: ''
+      confirmPassword: '',
+      errors: {}
+   }
+
+   componentWillReceiveProps(nextProps) {
+      if (nextProps.auth.errors) {
+         this.setState({ errors: nextProps.auth.errors });
+      }
    }
 
    onChange = e => {
@@ -18,9 +30,14 @@ class Register extends Component {
 
    onSubmit = e => {
       e.preventDefault();
+      const { username, email, password, confirmPassword } = this.state;
+      const newUser = { username, email, password, confirmPassword };
+
+      this.props.postRegister(newUser, this.props.history);
    }
 
    render() {
+      const { errors } = this.state;
       return (
          <div className="block">
             <div className="columns">
@@ -32,6 +49,7 @@ class Register extends Component {
                         name="username"
                         placeholder="Enter username"
                         onChange={this.onChange.bind(this)}
+                        error={errors}
                      />
                      <TextFieldGroup
                         type="email"
@@ -39,6 +57,7 @@ class Register extends Component {
                         name="email"
                         placeholder="Enter email"
                         onChange={this.onChange.bind(this)}
+                        error={errors}
                      />
                      <TextFieldGroup
                         type="password"
@@ -46,6 +65,7 @@ class Register extends Component {
                         name="password"
                         placeholder="Enter password"
                         onChange={this.onChange.bind(this)}
+                        error={errors}
                      />
                      <TextFieldGroup
                         type="password"
@@ -53,10 +73,11 @@ class Register extends Component {
                         name="confirmPassword"
                         placeholder="Confirm Password"
                         onChange={this.onChange.bind(this)}
+                        error={errors}
                      />
                      <div className="field" style={{ marginTop: 30 }}>
                         <div className="control">
-                           <button className="button is-primary is-fullwidth">Register</button>
+                           <button className="button is-primary is-fullwidth" type="submit">Register</button>
                         </div>
                      </div>
                   </form>
@@ -67,4 +88,13 @@ class Register extends Component {
    }
 }
 
-export default Register;
+Register.propTypes = {
+   postRegister: PropTypes.func.isRequired,
+   auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+   auth: state.auth
+});
+
+export default connect(mapStateToProps, { postRegister })(Register);
