@@ -6,7 +6,7 @@ const passport = require('passport');
 const usersController = require('../../controllers/usersController');
 
 // Validation
-const userValidation = require('../../validation/users');
+const userValidation = require('../../validation/user');
 
 /*
    @route      GET api/users/
