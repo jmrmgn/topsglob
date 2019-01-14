@@ -73,7 +73,7 @@ exports.putPost = async (req, res, next) => {
             if (!errors.isEmpty()) {
                return next(throwError(errors.array(), 422));
             }
-            
+
             post.content = req.body.content;
             await post.save();
             return res.status(201).json({ msg: "Post successfully updated" });
@@ -101,6 +101,53 @@ exports.deletePost = async (req, res, next) => {
          }
          else {
             return next(throwError("Unauthorized", 401));
+         }
+      }
+   }
+   catch (err) {
+      next(err);
+   }
+};
+
+exports.putLikePost = async (req, res, next) => {
+   try {
+      const post = await Post.findById(req.params.postId);
+      if (!post) {
+         return next(throwError("Post not found", 404));         
+      }
+      else {
+         if (post.likes.filter(like => like.user.toString() === req.user._id.toString()).length > 0) {
+            return next(throwError("Already liked this post.", 422));
+         }
+         else {
+            post.likes = [{user: req.user.id}, ...post.likes];
+            await post.save();
+            return res.status(201).json({ msg: "Post liked" });
+         }
+      }
+   }
+   catch (err) {
+      next(err);
+   }
+};
+
+exports.putUnlikePost = async (req, res, next) => {
+   try {
+      const post = await Post.findById(req.params.postId);
+      if (!post) {
+         return next(throwError("Post not found", 404));         
+      }
+      else {
+         if (post.likes.filter(like => like.user.toString() === req.user._id.toString()).length > 0) {
+            // perform dislike
+            post.likes = post.likes.filter(like => like.user.toString() !== req.user._id.toString());
+            await post.save();
+            return res.status(201).json({ msg: "Post unlike" });
+            
+         }
+         else {
+            // Not have yet like the post
+            return next(throwError("Post not yet like", 422));
          }
       }
    }

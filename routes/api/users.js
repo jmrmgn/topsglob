@@ -82,6 +82,17 @@ router.get(
 
 
 /*
+   @route      GET api/users/:userId/posts
+   @desc       Get users post
+   @accecss    PUBLIC
+*/
+router.get(
+   '/:userId/posts',
+   usersController.getUserPosts
+);
+
+
+/*
    @route      POST api/users/register
    @desc       Register user
    @accecss    PUBLIC

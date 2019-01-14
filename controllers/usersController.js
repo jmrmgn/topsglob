@@ -6,6 +6,7 @@ const throwError = require('../middlewares/errorHandler').errorHandler;
 const keys = require('../config/keys');
 
 const User = require('../models/User');
+const Post = require('../models/Post');
 
 exports.getUsers = async (req, res, next) => {
    try {
@@ -26,6 +27,20 @@ exports.getUser = async (req, res, next) => {
          : res.json(user);
    }
    catch (err) {
+      next(err);
+   }
+};
+
+exports.getUserPosts = async (req, res, next) => {
+   try {
+      const userId = req.params.userId;
+      const userPosts = await Post.find({ user: userId });
+      return (userPosts)
+         ? res.json(userPosts)
+         : res.json({});
+   }
+   catch (err) {
+      console.log(err);
       next(err);
    }
 };

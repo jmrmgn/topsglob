@@ -4,9 +4,9 @@ DONE /posts                  POST       | PRIVATE   | create a post
 DONE /posts/:postId          GET        | PUBLIC    | get single post
 DONE /posts/:postId          DELETE     | PRIVATE   | delete a post
 DONE /posts/:postId          PUT        | PRIVATE   | update a post
-/posts/:postId/likes    GET        | PUBLIC    | get users who like post
-/posts/:postId/like     PUT        | PRIVATE   | like a post
-/posts/:postId/unlike   PUT        | PRIVATE   | unlike a post
+DONE /posts/:postId/like     PUT        | PRIVATE   | like a post
+DONE /posts/:postId/unlike   PUT        | PRIVATE   | unlike a post
+TENTATIVE /posts/:postId/likes    GET        | PUBLIC    | get users who like post
 
 /* USERS */
 DONE /users/register         POST       | PUBLIC    | register new user
@@ -17,4 +17,4 @@ DONE /users/:userId          GET        | PUBLIC    | get single user
 DONE /users/profile          GET        | PRIVATE   | get profile
 DONE /users/profile          PUT        | PRIVATE   | update user's profile
 DONE /users/changePassword   PUT        | PRIVATE   | user change password
-/users/:userId/posts    GET        | PUBLIC    | view single user's posts
+DONE /users/:userId/posts    GET        | PUBLIC    | view single user's posts

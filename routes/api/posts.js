@@ -65,4 +65,28 @@ router.delete(
    postsController.deletePost
 );
 
+
+/*
+   @route      PUT api/posts/:postId/like
+   @desc       Like a post
+   @accecss    PRIVATE
+*/
+router.put(
+   '/:postId/like',
+   passport.authenticate('jwt', { session: false}),
+   postsController.putLikePost
+);
+
+
+/*
+   @route      PUT api/posts/:postId/unlike
+   @desc       Unlike a post
+   @accecss    PRIVATE
+*/
+router.put(
+   '/:postId/unlike',
+   passport.authenticate('jwt', { session: false}),
+   postsController.putUnlikePost
+);
+
 module.exports = router;
