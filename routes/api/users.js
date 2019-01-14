@@ -45,6 +45,32 @@ router.put(
 
 
 /*
+   @route      GET api/users/current
+   @desc       Token validation
+   @accecss    PRIVATE (temporary)
+*/
+router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
+   res.json({
+      id: req.user._id,
+      name: req.user.username
+   });
+});
+
+
+/*
+   @route      PUT api/users/changePassword
+   @desc       Change current user password
+   @accecss    PRIVATE
+*/
+router.put(
+   '/changePassword',
+   passport.authenticate('jwt', { session: false }),
+   userValidation.validatePutChangePassword,
+   usersController.putUserChangePassword
+);
+
+
+/*
    @route      GET api/users/:userId
    @desc       Get single user
    @accecss    PUBLIC
@@ -77,19 +103,5 @@ router.post(
    userValidation.validateLogin,
    usersController.postLogin
 );
-
-
-/*
-   @route      GET api/users/current
-   @desc       Token validation
-   @accecss    PRIVATE (temporary)
-*/
-router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
-   res.json({
-      id: req.user._id,
-      name: req.user.username
-   });
-});
-
 
 module.exports = router;

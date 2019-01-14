@@ -127,3 +127,38 @@ exports.putUserProfile = async (req, res, next) => {
       (!err.statusCode) ? (err.statusCode = 500) : next(err.errors);
    }
 };
+
+exports.putUserChangePassword = async (req, res, next) => {
+   try {
+      const currentPassword = req.body.currentPassword;
+      const newPassword = req.body.newPassword;
+
+      const user = await User.findOne({ _id: req.user._id });
+
+      if (!user) {
+         return res.status(401).json({ errors: "Unauthorized" });
+      }
+      else {
+         const errors = validationResult(req);
+
+         if (!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() });
+         }
+
+         const isMatch = await bcrypt.compare(currentPassword, user.password);
+         if (!isMatch) {
+            return res.status(422).json({ errors: "Invalid password" });
+         }
+         else {
+            const hashNewPw = await bcrypt.hash(newPassword, 12);
+            user.password = hashNewPw;
+            await user.save();
+
+            return res.status(201).json({ msg: "Password successfully changed"});
+         }
+      }
+   }
+   catch (err) {
+      (!err.statusCode) ? (err.statusCode = 500) : next(err.errors);
+   }
+};

@@ -30,7 +30,7 @@ module.exports = {
                throw new Error('Passwords doesn\'t match');
             }
             else {
-               return value;
+               return true;
             }
          })
          .trim()
@@ -44,5 +44,20 @@ module.exports = {
    validatePutCurrentProfile: [
       body('bio')
          .isLength({ max: 200 }).withMessage('Bio can\'t exceed of 200 characters')
+   ],
+   validatePutChangePassword: [
+      body('currentPassword')
+         .not().isEmpty().withMessage('Current password is required'),
+      body('newPassword')
+         .isLength({ min: 8, max: 100 }).withMessage('New password must be at least 8 characters')
+         .custom((value, {req}) => {
+            if (value !== req.body.newPassword2) {
+               throw new Error('Passwords doesn\'t match');
+            }
+            else {
+               return true;
+            }
+         })
+         .trim()
    ]
 };
