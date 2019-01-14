@@ -24,11 +24,13 @@ app.use(expressValidator());
 app.use('/api/users', usersRoute);
 app.use('/api/posts', postsRoute);
 
-app.use((error, req, res, next) => {
-   const status = error.statusCode || 500;
-   const message = error.message;
-   const data = error.data;
-   res.status(status).json({message: message, data: data});
+app.use( (err, req, res, next) => {
+   const status = err.statusCode || 500;
+   const msg = err.msg || 'Something wen\'t wrong';
+   res.status(status).json({
+      errors: (typeof err.msg === 'object') ? (msg) : msg.toString(),
+      status: status
+   });
 });
 
 mongoose.connect(

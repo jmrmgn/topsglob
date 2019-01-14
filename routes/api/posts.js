@@ -30,4 +30,25 @@ router.post(
 );
 
 
+/*
+   @route      GET api/posts/:postId
+   @desc       Get single post
+   @accecss    PUBLIC
+*/
+router.get(
+   '/:postId',
+   postsController.getPost
+);
+
+/*
+   @route      GET api/posts/:postId
+   @desc       Get single post
+   @accecss    PUBLIC
+*/
+router.delete(
+   '/:postId',
+   passport.authenticate('jwt', { session: false}),
+   postsController.deletePost
+);
+
 module.exports = router;

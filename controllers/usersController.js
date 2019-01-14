@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator/check');
 
+const throwError = require('../middlewares/errorHandler').errorHandler;
 const keys = require('../config/keys');
 
 const User = require('../models/User');
@@ -12,7 +13,7 @@ exports.getUsers = async (req, res, next) => {
       return (!users) ? res.json({}) : res.json(users);
    }
    catch (err) {
-      (!err.statusCode) ? (err.statusCode = 500) : next(err.errors);
+      next(err);
    }
 };
 
@@ -20,10 +21,12 @@ exports.getUser = async (req, res, next) => {
    try {
       const userId = req.params.userId;
       const user = await User.findById(userId).select('-password').exec();
-      return (!user) ? res.status(404).json({ errors: "User not found" }) : res.json(user);
+      return (!user) 
+         ? next(throwError("User not found", 404))
+         : res.json(user);
    }
    catch (err) {
-      (!err.statusCode) ? (err.statusCode = 500) : next(err.errors);
+      next(err);
    }
 };
 
@@ -32,7 +35,7 @@ exports.postRegister = async (req, res, next) => {
       const errors = validationResult(req);
 
       if (!errors.isEmpty()) {
-         return res.status(422).json({ errors: errors.array() });
+         return next(throwError(errors.array(), 422));
       }
 
       const username = req.body.username;
@@ -50,7 +53,7 @@ exports.postRegister = async (req, res, next) => {
       res.status(201).json({ msg: "Successfully registered" });
    }
    catch (err) {
-      (!err.statusCode) ? (err.statusCode = 500) : next(err.errors);
+      next(err);
    }
 };
 
@@ -59,7 +62,7 @@ exports.postLogin = async (req, res, next) => {
       const errors = validationResult(req);
 
       if (!errors.isEmpty()) {
-         return res.status(422).json({ errors: errors.array() });
+         return next(throwError(errors.array(), 422));
       }
 
       const username = req.body.username;
@@ -67,7 +70,7 @@ exports.postLogin = async (req, res, next) => {
 
       const user = await User.findOne({ username: username });
       if (!user) {
-         return res.status(404).json({ errors: "User not found" });
+         return next(throwError("User not found", 404));
       }
       else {
          const isMatch = await bcrypt.compare(password, user.password);
@@ -85,13 +88,13 @@ exports.postLogin = async (req, res, next) => {
             });
          }
          else {
-            return res.status(422).json({ errors: "Invalid credentials" });
+            return next(throwError("Invalid credentials", 422));
          }
       }
 
    }
    catch (err) {
-      (!err.statusCode) ? (err.statusCode = 500) : next(err.errors);
+      next(err);
    }
 };
 
@@ -100,7 +103,7 @@ exports.getUserProfile = async (req, res, next) => {
       res.json(req.user);
    }
    catch (err) {
-      (!err.statusCode) ? (err.statusCode = 500) : next(err.errors);
+      next(err);
    }
 };
 
@@ -109,13 +112,13 @@ exports.putUserProfile = async (req, res, next) => {
       const errors = validationResult(req);
 
       if (!errors.isEmpty()) {
-         return res.status(422).json({ errors: errors.array() });
+         return next(throwError(errors.array(), 422));
       }
       
       const user = await User.findById(req.user._id);
 
       if (!user) {
-         return res.status(404).json({ errors: "Not found" });
+         return next(throwError("Unauthorized", 401));
       }
       else {
          user.bio = req.body.bio;
@@ -124,7 +127,7 @@ exports.putUserProfile = async (req, res, next) => {
       }
    }
    catch (err) {
-      (!err.statusCode) ? (err.statusCode = 500) : next(err.errors);
+      next(err);
    }
 };
 
@@ -136,7 +139,7 @@ exports.putUserChangePassword = async (req, res, next) => {
       const user = await User.findOne({ _id: req.user._id });
 
       if (!user) {
-         return res.status(401).json({ errors: "Unauthorized" });
+         return next(throwError("Unauthorized", 401));
       }
       else {
          const errors = validationResult(req);
@@ -147,7 +150,7 @@ exports.putUserChangePassword = async (req, res, next) => {
 
          const isMatch = await bcrypt.compare(currentPassword, user.password);
          if (!isMatch) {
-            return res.status(422).json({ errors: "Invalid password" });
+            return next(throwError("Invalid password", 422));
          }
          else {
             const hashNewPw = await bcrypt.hash(newPassword, 12);
@@ -159,6 +162,6 @@ exports.putUserChangePassword = async (req, res, next) => {
       }
    }
    catch (err) {
-      (!err.statusCode) ? (err.statusCode = 500) : next(err.errors);
+      next(err);
    }
 };
