@@ -3,12 +3,12 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
 const TextFieldGroup = props => {
-   const { label, type, name, placeholder, value, error, onChange } = props;
+   const { label, type, name, placeholder, value, icon, error, onChange } = props;
 
    return (
       <div className="field">
          <label htmlFor={name}>{label}</label>
-         <div className="control">
+         <p className="control has-icons-left">
             <input
                type={type}
                name={name}
@@ -17,9 +17,13 @@ const TextFieldGroup = props => {
                onChange={onChange}
                value={value}
             />
-         </div>
+            <span className="icon is-small is-left">
+               <i className={icon}></i>
+            </span>
+         </p>
          {error ? <p className="help has-text-danger">{error}</p> : null}
       </div>
+      
    );
 };
 
@@ -29,6 +33,7 @@ TextFieldGroup.propTypes = {
    type: PropTypes.string.isRequired,
    placeholder: PropTypes.string,
    value: PropTypes.string,
+   icon: PropTypes.string,
    error: PropTypes.string,
    onChange: PropTypes.func.isRequired
 };

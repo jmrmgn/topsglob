@@ -52,6 +52,7 @@ class Register extends Component {
                         name="username"
                         placeholder="Enter username"
                         onChange={this.onChange.bind(this)}
+                        icon={"fas fa-user"}
                         error={errors.username}
                      />
                      <TextFieldGroup
@@ -60,6 +61,7 @@ class Register extends Component {
                         name="email"
                         placeholder="Enter email"
                         onChange={this.onChange.bind(this)}
+                        icon={"fas fa-envelope"}
                         error={errors.email}
                      />
                      <TextFieldGroup
@@ -68,6 +70,7 @@ class Register extends Component {
                         name="password"
                         placeholder="Enter password"
                         onChange={this.onChange.bind(this)}
+                        icon={"fas fa-lock"}
                         error={errors.password}
                      />
                      <TextFieldGroup
@@ -76,6 +79,7 @@ class Register extends Component {
                         name="confirmPassword"
                         placeholder="Confirm Password"
                         onChange={this.onChange.bind(this)}
+                        icon={"fas fa-lock"}
                         error={errors.confirmPassword}                        
                      />
                      <div className="field" style={{ marginTop: 30 }}>

@@ -12,6 +12,10 @@ class Navbar extends Component {
       this.setState({ isActive: !this.state.isActive });
    }
 
+   onCloseMenu = () => {
+      this.setState({ isActive: !this.state.isActive });
+   }
+
    render() {
       const { isActive } = this.state;
       return (
@@ -41,13 +45,13 @@ class Navbar extends Component {
                      className={classnames('navbar-menu', { 'is-active': isActive })}
                   >
                      <div className="navbar-start">
-                        <NavLink className="navbar-item" to="/">Home</NavLink>
-                        <NavLink className="navbar-item" to="/posts">Posts</NavLink>
-                        <NavLink className="navbar-item" to="/users">Users</NavLink>
+                        <NavLink className="navbar-item" to="/" onClick={this.onCloseMenu.bind(this)}>Home</NavLink>
+                        <NavLink className="navbar-item" to="/posts" onClick={this.onCloseMenu.bind(this)}>Posts</NavLink>
+                        <NavLink className="navbar-item" to="/users" onClick={this.onCloseMenu.bind(this)}>Users</NavLink>
                      </div>
                      <div className="navbar-end">
-                        <NavLink className="navbar-item" to="/register">Register</NavLink>
-                        <NavLink className="navbar-item" to="/login">Login</NavLink>
+                        <NavLink className="navbar-item" to="/register" onClick={this.onCloseMenu.bind(this)}>Register</NavLink>
+                        <NavLink className="navbar-item" to="/login" onClick={this.onCloseMenu.bind(this)}>Login</NavLink>
                      </div>
                   </div>
                </div>
