@@ -5,6 +5,7 @@ const User = require('../models/User');
 module.exports = {
    validateRegister: [
       body('username')
+         .not().isEmpty().withMessage('Username is required')
          .isLength({ min: 3, max: 20 }).withMessage('Username must be at least 3 - 20 characters')
          .isAlphanumeric().withMessage('Username must be alphanumeric only')
          .custom(async (value) => {
@@ -15,6 +16,7 @@ module.exports = {
          })
          .trim(),
       body('email')
+         .not().isEmpty().withMessage('Email is required')
          .isEmail().withMessage('Invalid email')
          .custom(async (value) => {
             const email = await User.findOne({ email: value });
@@ -24,9 +26,11 @@ module.exports = {
          })
          .trim(),
       body('password')
+         .not().isEmpty().withMessage('Password is required')
          .isLength({ min: 8, max: 100 }).withMessage('Password must be at least 8 characters')
          .trim(),
       body('confirmPassword')
+         .not().isEmpty().withMessage('Confirm password is required')
          .custom((value, {req}) => {
             if (value !== req.body.password) {
                throw new Error('Passwords doesn\'t match');

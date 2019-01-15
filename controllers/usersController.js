@@ -8,6 +8,18 @@ const keys = require('../config/keys');
 const User = require('../models/User');
 const Post = require('../models/Post');
 
+// const errorTracker = (req, next) => {
+//    const errorFormatter = ({ location, msg, param, value, nestedErrors }) => {
+//       return `${msg}`;
+//    };
+   
+//    const errors = validationResult(req).formatWith(errorFormatter);
+
+//    if (!errors.isEmpty()) {
+//       return next(throwError(errors.mapped(), 422));
+//    }
+// }
+
 exports.getUsers = async (req, res, next) => {
    try {
       const users = await User.find().select('-password').exec();
@@ -47,10 +59,11 @@ exports.getUserPosts = async (req, res, next) => {
 
 exports.postRegister = async (req, res, next) => {
    try {
-      const errors = validationResult(req);
-
+            
+      const errors = validationResult(req).formatWith(({ msg }) => msg);
+   
       if (!errors.isEmpty()) {
-         return next(throwError(errors.array(), 422));
+         return next(throwError(errors.mapped(), 422));
       }
 
       const username = req.body.username;

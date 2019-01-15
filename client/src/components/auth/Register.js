@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
@@ -38,18 +39,20 @@ class Register extends Component {
 
    render() {
       const { errors } = this.state;
+      const { isPosting } = this.props.auth;
+
       return (
          <div className="block">
             <div className="columns">
                <div className="column is-4 is-offset-4">
                   <h1 className="title has-text-centered">Register new user</h1>
-                  <form onSubmit={this.onSubmit.bind(this)}>                           
+                  <form onSubmit={this.onSubmit.bind(this)} noValidate>                           
                      <TextFieldGroup
                         label="Username"
                         name="username"
                         placeholder="Enter username"
                         onChange={this.onChange.bind(this)}
-                        error={errors}
+                        error={errors.username}
                      />
                      <TextFieldGroup
                         type="email"
@@ -57,7 +60,7 @@ class Register extends Component {
                         name="email"
                         placeholder="Enter email"
                         onChange={this.onChange.bind(this)}
-                        error={errors}
+                        error={errors.email}
                      />
                      <TextFieldGroup
                         type="password"
@@ -65,7 +68,7 @@ class Register extends Component {
                         name="password"
                         placeholder="Enter password"
                         onChange={this.onChange.bind(this)}
-                        error={errors}
+                        error={errors.password}
                      />
                      <TextFieldGroup
                         type="password"
@@ -73,11 +76,16 @@ class Register extends Component {
                         name="confirmPassword"
                         placeholder="Confirm Password"
                         onChange={this.onChange.bind(this)}
-                        error={errors}
+                        error={errors.confirmPassword}                        
                      />
                      <div className="field" style={{ marginTop: 30 }}>
                         <div className="control">
-                           <button className="button is-primary is-fullwidth" type="submit">Register</button>
+                           <button
+                              className={classnames('button is-info is-fullwidth', { 'is-loading': isPosting })}
+                              type="submit"
+                           >
+                              Register
+                           </button>
                         </div>
                      </div>
                   </form>

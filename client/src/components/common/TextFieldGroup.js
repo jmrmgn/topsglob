@@ -12,20 +12,13 @@ const TextFieldGroup = props => {
             <input
                type={type}
                name={name}
-               className={classnames('input')}
+               className={classnames('input', { 'is-danger': error })}
                placeholder={placeholder}
                onChange={onChange}
                value={value}
             />
          </div>
-         {
-            error.length > 0 &&
-               error.map((err, index) => {
-                  return (
-                     err.param === name && <p className="help has-text-danger" key={index} >{err.msg}</p>
-                  );
-               })
-         }
+         {error ? <p className="help has-text-danger">{error}</p> : null}
       </div>
    );
 };
@@ -36,7 +29,7 @@ TextFieldGroup.propTypes = {
    type: PropTypes.string.isRequired,
    placeholder: PropTypes.string,
    value: PropTypes.string,
-   error: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+   error: PropTypes.string,
    onChange: PropTypes.func.isRequired
 };
 
