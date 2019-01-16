@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import { hideFlash } from '../../actions/flashActions';
@@ -12,9 +12,10 @@ class Navbar extends Component {
       isActive: false
    }
 
-   onLogout = () => {
+   onLogout = e => {
+      e.preventDefault();
       this.props.logoutUser();
-      this.props.history.push('/');      
+      this.props.history.push('/login');
       this.setState({ isActive: false });
    }
 
@@ -38,14 +39,14 @@ class Navbar extends Component {
          ? (
             <React.Fragment>
                <div className='navbar-item is-hoverable'>
-                  <a className="navbar-link" href="/" onClick={e => { e.preventDefault(); this.setState({ isActive: !this.state.isActive }); }}>
+                  <a className="navbar-link" href="/" onClick={e => { e.preventDefault() }}>
                      Hello, {user.username}
                   </a>
 
                   <div className="navbar-dropdown">
                      <NavLink className="navbar-item" to="/profile" onClick={this.onCloseMenu.bind(this)}>Profile</NavLink>
                      <NavLink className="navbar-item" to="/settings" onClick={this.onCloseMenu.bind(this)}>Settings</NavLink>
-                     <NavLink className="navbar-item" to="/logout" onClick={this.onLogout.bind(this)}>Logout</NavLink>
+                     <a href="/" className="navbar-item" onClick={this.onLogout.bind(this)}>Logout</a>
                   </div>
                </div>
             </React.Fragment>
@@ -108,4 +109,4 @@ const mapStateToProps = state => ({
    auth: state.auth
 });
 
-export default connect(mapStateToProps, { hideFlash, logoutUser })(Navbar);
+export default connect(mapStateToProps, { hideFlash, logoutUser })(withRouter(Navbar));
