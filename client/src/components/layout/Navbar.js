@@ -17,7 +17,10 @@ class Navbar extends Component {
 
    onCloseMenu = () => {
       this.setState({ isActive: false });
-      this.props.hideFlash();
+      const { showFlash } = this.props.flash;
+      if (showFlash) {
+         this.props.hideFlash();
+      }
    }
 
    render() {

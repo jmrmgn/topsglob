@@ -110,7 +110,7 @@ exports.postLogin = async (req, res, next) => {
             };
 
             // Signing in the jwt
-            const token = await jwt.sign(payload, keys.secret, { expiresIn: '24h' });
+            const token = await jwt.sign(payload, keys.secret, { expiresIn: 3600 });
             return res.json({
                token: `Bearer ${token}`
             });

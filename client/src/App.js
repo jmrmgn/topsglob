@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import jwt_decode from 'jwt-decode';
+
 import 'bulma/css/bulma.min.css';
 import './App.css';
 
+import { setAuthToken } from './utils/setAuthToken';
+
 // React redux config
 import { connect } from 'react-redux';
+import { setCurrentUser, logoutUser } from './actions/authActions';
+import store from './store';
 
 // Flash messages
 import Flash from './components/common/Flash';
@@ -18,7 +24,27 @@ import Users from './components/users/Users';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 
+// Check for token
+const token = localStorage.jwtToken;
+if (token) {
+   // Set auth token auth header 
+   setAuthToken(token);
+   // Decode the token
+   const decoded = jwt_decode(token);
+   // Set user and isAuthenticated
+   store.dispatch(setCurrentUser(decoded));
+
+   // Check if the token is expired
+   if (decoded.exp < Date.now() / 1000) {
+      // Logout user
+      store.dispatch(logoutUser());
+      // Redirect to login
+      window.location.href = "/login";
+   }
+}
+
 class App extends Component {
+
    render() {
       const { showFlash, msg, status } = this.props.flash;
       const flash = showFlash && 
@@ -45,11 +71,13 @@ class App extends Component {
 }
 
 App.propTypes = {
-   flash: PropTypes.object.isRequired
+   flash: PropTypes.object.isRequired,
+   auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
-   flash: state.flash
+   flash: state.flash,
+   auth: state.auth
 });
 
 export default connect(mapStateToProps, {})(App);

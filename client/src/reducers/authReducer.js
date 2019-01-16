@@ -1,4 +1,5 @@
-import { AUTH_REQUEST, AUTH_ERROR, AUTH_SUCCESS } from '../actions/types';
+import isEmpty from '../validation/isEmpty';
+import { AUTH_REQUEST, AUTH_ERROR, AUTH_SUCCESS, SET_CURRENT_USER } from '../actions/types';
 
 const initialState = {
    isPosting: false,
@@ -9,6 +10,14 @@ const initialState = {
 
 export default ( state = initialState, action ) => {
    switch (action.type) {
+
+      case SET_CURRENT_USER:
+         return {
+            ...state,
+            isAuthenticated: !isEmpty(action.payload),
+            user: action.payload
+         };
+
       case AUTH_ERROR:
          return {
             ...state,
