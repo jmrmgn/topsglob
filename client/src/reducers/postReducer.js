@@ -15,7 +15,8 @@ export default (state = initialState, action) => {
       case POST_REQUEST:
          return {
             ...state,
-            isPosting: true
+            isPosting: true,
+            errors: {}
          };
       
       case POST_ERROR:
@@ -29,7 +30,8 @@ export default (state = initialState, action) => {
          return {
             ...state,
             isPosting: false,
-            errors: {}
+            errors: {},
+            posts: [action.payload, ...state.posts]
          };
 
       default:

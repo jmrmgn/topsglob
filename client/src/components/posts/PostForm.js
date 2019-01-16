@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import classnames from 'classnames';
+import PropTypes from 'prop-types';
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 
 import { connect } from 'react-redux';
+import { addPost } from '../../actions/postActions';
 
 class PostForm extends Component {
    state = {
@@ -9,20 +12,36 @@ class PostForm extends Component {
       errors: {}
    };
 
+   componentWillReceiveProps(nextProps) {
+      if (nextProps.post.errors) {
+         this.setState({
+            errors: nextProps.post.errors
+         });
+      }
+   }
+
    onChange = e => {
       this.setState({ [e.target.name]: e.target.value });
    }
 
-   onSubmit = e => {
+   onSubmit = async e => {
       e.preventDefault();
 
       const { id } = this.props.auth.user;
       const { content } = this.state;
-      // TODO CREATE POST
+      const newPost = {
+         user: id,
+         content: content
+      };
+
+      await this.props.addPost(newPost);
+      this.setState({ content: '' });
    }
 
    render() {
-      const { errors } = this.state;
+      const { errors, content } = this.state;
+      const { isPosting } = this.props.post;
+
       return (
          <div className="postform">
             <label htmlFor="content" className="title is-4">What's new</label>
@@ -34,10 +53,11 @@ class PostForm extends Component {
                         placeholder="Say something..."
                         onChange={this.onChange.bind(this)}
                         error={errors.content}
+                        value={content}
                      />
                      <div className="field m-t-sm">
                         <div className="control">
-                           <button className="button is-info">Create Post</button>
+                           <button className={classnames('button is-info', {'is-loading': isPosting})}>Create Post</button>
                         </div>
                      </div>
                   </form>
@@ -48,8 +68,15 @@ class PostForm extends Component {
    }
 }
 
+PostForm.propTypes = {
+   auth: PropTypes.object.isRequired,
+   post: PropTypes.object.isRequired,
+   addPost: PropTypes.func.isRequired
+}
+
 const mapStateToProps = state => ({
-   auth: state.auth
+   auth: state.auth,
+   post: state.post
 });
 
-export default connect(mapStateToProps, {})(PostForm);
+export default connect(mapStateToProps, { addPost })(PostForm);
