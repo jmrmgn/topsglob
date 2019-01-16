@@ -25,7 +25,8 @@ export default ( state = initialState, action ) => {
       case AUTH_SUCCESS:
          return {
             ...state,
-            isPosting: false
+            isPosting: false,
+            errors: {}
          };
 
       default:

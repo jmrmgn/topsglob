@@ -13,13 +13,13 @@ class Navbar extends Component {
    }
 
    onCloseMenu = () => {
-      this.setState({ isActive: !this.state.isActive });
+      this.setState({ isActive: false });
    }
 
    render() {
       const { isActive } = this.state;
       return (
-         <div className="block">
+         // <div className="block">
             <nav className="navbar is-primary is-spaced has-shadow" role="navigation" aria-label="main navigation">
                <div className="container">
                   <div className="navbar-brand">
@@ -56,7 +56,7 @@ class Navbar extends Component {
                   </div>
                </div>
             </nav>
-         </div>
+         // </div>
       )
    }
 }

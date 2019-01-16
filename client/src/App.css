@@ -80,7 +80,7 @@
 .p-l-xxl { padding-left: 8rem; }
 
 @media only screen and (max-width: 768px) {
-   .main__container {
-     padding: 5px 25px;
-   }
- }
+  .main__container {
+    padding: 5px 25px;
+  }
+}

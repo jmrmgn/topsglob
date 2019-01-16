@@ -87,10 +87,10 @@ exports.postRegister = async (req, res, next) => {
 
 exports.postLogin = async (req, res, next) => {
    try {
-      const errors = validationResult(req);
-
+      const errors = validationResult(req).formatWith(({ msg }) => msg);
+   
       if (!errors.isEmpty()) {
-         return next(throwError(errors.array(), 422));
+         return next(throwError(errors.mapped(), 422));
       }
 
       const username = req.body.username;
