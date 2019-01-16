@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 
 import 'bulma/css/bulma.min.css';
@@ -15,6 +15,9 @@ import store from './store';
 
 // Flash messages
 import Flash from './components/common/Flash';
+
+// Private route
+import PrivateRoute from './components/common/PrivateRoute';
 
 // Components
 import Navbar from './components/layout/Navbar';
@@ -58,11 +61,13 @@ class App extends Component {
                <Navbar />
                {flash}
                <div className="container main__container m-t-lg">
-                  <Route exact path="/" component={Home} />
-                  <Route exact path="/posts" component={Posts} />
-                  <Route exact path="/users" component={Users} />
-                  <Route exact path="/register" component={Register} />
-                  <Route exact path="/login" component={Login} />
+                  <Switch>
+                     <Route exact path="/" component={Home} />
+                     <Route exact path="/posts" component={Posts} />
+                     <PrivateRoute exact path="/users" component={Users} />
+                     <Route exact path="/register" component={Register} />
+                     <Route exact path="/login" component={Login} />
+                  </Switch>
                </div>
             </div>
          </Router>

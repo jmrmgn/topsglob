@@ -16,6 +16,13 @@ class Register extends Component {
       confirmPassword: '',
       errors: {}
    }
+   
+   componentDidMount() {
+      const { isAuthenticated } = this.props.auth;
+      if (isAuthenticated) {
+         this.props.history.push('/');
+      }
+   }
 
    componentWillReceiveProps(nextProps) {
       if (nextProps.auth.errors) {
@@ -45,7 +52,7 @@ class Register extends Component {
          <div className="block">
             <div className="columns">
                <div className="column is-4 is-offset-4">
-                  <h1 className="title has-text-centered">Register new user</h1>
+                  <h1 className="title has-text-centered">Create your account</h1>
                   <form onSubmit={this.onSubmit.bind(this)} noValidate>                           
                      <TextFieldGroup
                         label="Username"

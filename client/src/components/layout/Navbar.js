@@ -5,10 +5,17 @@ import { NavLink } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import { hideFlash } from '../../actions/flashActions';
+import { logoutUser } from '../../actions/authActions';
 
 class Navbar extends Component {
    state = {
       isActive: false
+   }
+
+   onLogout = () => {
+      this.props.logoutUser();
+      this.props.history.push('/');      
+      this.setState({ isActive: false });
    }
 
    onClick = () => {
@@ -25,6 +32,30 @@ class Navbar extends Component {
 
    render() {
       const { isActive } = this.state;
+      const { isAuthenticated, user } = this.props.auth;
+      
+      const authLinks = (isAuthenticated)
+         ? (
+            <React.Fragment>
+               <div className='navbar-item is-hoverable'>
+                  <a className="navbar-link" href="/" onClick={e => { e.preventDefault(); this.setState({ isActive: !this.state.isActive }); }}>
+                     Hello, {user.username}
+                  </a>
+
+                  <div className="navbar-dropdown">
+                     <NavLink className="navbar-item" to="/profile" onClick={this.onCloseMenu.bind(this)}>Profile</NavLink>
+                     <NavLink className="navbar-item" to="/settings" onClick={this.onCloseMenu.bind(this)}>Settings</NavLink>
+                     <NavLink className="navbar-item" to="/logout" onClick={this.onLogout.bind(this)}>Logout</NavLink>
+                  </div>
+               </div>
+            </React.Fragment>
+         )
+         : (
+            <React.Fragment>
+               <NavLink className="navbar-item" to="/register" onClick={this.onCloseMenu.bind(this)}>Register</NavLink>
+               <NavLink className="navbar-item" to="/login" onClick={this.onCloseMenu.bind(this)}>Login</NavLink>
+            </React.Fragment>
+         );
       return (
          <nav className="navbar is-primary is-spaced has-shadow" role="navigation" aria-label="main navigation">
             <div className="container">
@@ -56,8 +87,7 @@ class Navbar extends Component {
                      <NavLink className="navbar-item" to="/users" onClick={this.onCloseMenu.bind(this)}>Users</NavLink>
                   </div>
                   <div className="navbar-end">
-                     <NavLink className="navbar-item" to="/register" onClick={this.onCloseMenu.bind(this)}>Register</NavLink>
-                     <NavLink className="navbar-item" to="/login" onClick={this.onCloseMenu.bind(this)}>Login</NavLink>
+                     {authLinks}
                   </div>
                </div>
             </div>
@@ -68,11 +98,14 @@ class Navbar extends Component {
 
 Navbar.propTypes = {
    flash: PropTypes.object.isRequired,
-   hideFlash: PropTypes.func.isRequired
+   auth: PropTypes.object.isRequired,
+   hideFlash: PropTypes.func.isRequired,
+   logoutUser: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
-   flash: state.flash
+   flash: state.flash,
+   auth: state.auth
 });
 
-export default connect(mapStateToProps, { hideFlash })(Navbar);
+export default connect(mapStateToProps, { hideFlash, logoutUser })(Navbar);

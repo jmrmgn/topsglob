@@ -15,6 +15,13 @@ class Login extends Component {
       errors: {}
    };
 
+   componentDidMount() {
+      const { isAuthenticated } = this.props.auth;
+      if (isAuthenticated) {
+         this.props.history.push('/');
+      }
+   }
+   
    componentWillReceiveProps(nextProps) {
       if (nextProps.auth.errors) {
          this.setState({ errors: nextProps.auth.errors });
