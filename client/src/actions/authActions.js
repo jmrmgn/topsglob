@@ -42,7 +42,7 @@ export const postLogin = (userData, history) => async dispatch => {
 
       await dispatch({ type: AUTH_SUCCESS });
       await dispatch(hideFlash());
-      history.push('/');
+      history.push('/posts');
    }
    catch(err) {
       dispatch({ type: AUTH_ERROR, payload: err.response.data.errors });

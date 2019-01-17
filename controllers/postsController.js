@@ -6,7 +6,7 @@ const Post = require('../models/Post');
 
 exports.getPosts = async (req, res, next) => {
    try {
-      const posts = await Post.find().populate('user', 'username email');
+      const posts = await Post.find().populate('user', 'username email').sort('-createdAt');
       if (!posts) {
          return res.json({});
       }
@@ -45,13 +45,15 @@ exports.postPost = async (req, res, next) => {
       const content = req.body.content;
       const userId = req.user._id;
 
-      const newPost = new Post({ 
+      const postData = new Post({ 
          content,
          user: userId
       });
-
-      await newPost.save();
-      return res.status(201).json(newPost);
+      
+      const newPost = await postData.save();
+      const post = await Post.findOne(newPost).populate('user', 'username email');
+      return res.status(201).json(post);
+      
    }
    catch (err) {
       (!err.statusCode) ? (err.statusCode = 500) : next(err.errors);

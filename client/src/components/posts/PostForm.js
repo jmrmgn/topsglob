@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
+
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 
 import { connect } from 'react-redux';
@@ -35,7 +36,6 @@ class PostForm extends Component {
       };
 
       await this.props.addPost(newPost);
-      this.setState({ content: '' });
    }
 
    render() {
@@ -44,8 +44,8 @@ class PostForm extends Component {
 
       return (
          <div className="postform">
-            <label htmlFor="content" className="title is-4">What's new</label>
             <div className="card m-t-sm p-md">
+               <label htmlFor="content" className="card-header is-4">What's new</label>
                <div className="card-body">
                   <form onSubmit={this.onSubmit.bind(this)}>                    
                      <TextAreaFieldGroup

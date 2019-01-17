@@ -39,4 +39,10 @@ const PostItem = props => {
    );
 };
 
+PostItem.propTypes = {
+   user: PropTypes.object.isRequired,
+   content: PropTypes.string.isRequired,
+   created: PropTypes.string.isRequired
+}
+
 export default PostItem;

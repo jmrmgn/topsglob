@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import PostItem from './PostItem';
+import PostContentLoader from '../common/PostsContentLoader';
 
 import { connect } from 'react-redux';
 import { getPosts } from '../../actions/postActions';
@@ -28,7 +29,12 @@ class PostMain extends Component {
                );
             })
             : <h1>No posts</h1>
-      : <h2>Loading...</h2>;
+      : <React.Fragment>
+         <PostContentLoader />
+         <PostContentLoader />
+         <PostContentLoader />
+         </React.Fragment>
+      ;
 
       return (         
          <div>
