@@ -1,5 +1,5 @@
 import { 
-   POST_REQUEST, POST_SUCCESS, POST_ERROR
+   POST_LOADING, POST_REQUEST, POST_SUCCESS, POST_ERROR, GET_POSTS
 } from '../actions/types';
 
 const initialState = {
@@ -12,6 +12,20 @@ const initialState = {
 
 export default (state = initialState, action) => {
    switch (action.type) {
+
+      case POST_LOADING:
+         return {
+            ...state,
+            isFetching: true
+         };
+      
+      case GET_POSTS:
+         return {
+            ...state,
+            isFetching: false,
+            posts: action.payload
+         };
+
       case POST_REQUEST:
          return {
             ...state,

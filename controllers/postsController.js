@@ -6,7 +6,7 @@ const Post = require('../models/Post');
 
 exports.getPosts = async (req, res, next) => {
    try {
-      const posts = await Post.find();
+      const posts = await Post.find().populate('user', 'username email');
       if (!posts) {
          return res.json({});
       }
