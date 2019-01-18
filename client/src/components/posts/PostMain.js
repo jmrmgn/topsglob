@@ -14,12 +14,13 @@ class PostMain extends Component {
    }
 
    render() {
-      const { posts, isFetching } = this.props.post;
+      const { isFetching } = this.props.post;
+      const { docs } = this.props.post.posts;
 
       const allPosts = (!isFetching)
       ?
-         (posts.length > 0)
-            ? posts.map((post, index) => {
+         (docs)
+            ? docs.map((post, index) => {
                return(
                   <PostItem key={index}
                      user={post.user}

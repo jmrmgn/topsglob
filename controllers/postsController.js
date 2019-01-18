@@ -6,7 +6,16 @@ const Post = require('../models/Post');
 
 exports.getPosts = async (req, res, next) => {
    try {
-      const posts = await Post.find().populate('user', 'username email').sort('-createdAt');
+      // const posts = await Post.find().populate('user', 'username email').sort('-createdAt');
+      const { page, perPage } = req.query;
+      const options = {
+         page: parseInt(page, 10) || 1,
+         limit: parseInt(perPage, 10) || 10,
+         populate: [{path:'user', select:"username email"}],
+         sort: '-createdAt'
+      };
+
+      const posts = await Post.paginate({}, options);
       if (!posts) {
          return res.json({});
       }

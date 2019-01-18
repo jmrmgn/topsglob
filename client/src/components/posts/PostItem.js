@@ -25,11 +25,11 @@ const PostItem = props => {
                   </div>
                   <nav className="level is-mobile">
                      <div className="level-left">
-                        <a className="level-item" aria-label="reply" onClick={e => e.preventDefault()}>
-                           <span className="icon is-small">
+                        {/* <a href="/" className="level-item" aria-label="reply" onClick={e => e.preventDefault()}> */}
+                           <span className="icon is-small like-button" onClick={() => alert("Test")}>
                               <i className="fas fa-thumbs-up"></i>
                            </span>
-                        </a>                                              
+                        {/* </a> */}
                      </div>
                   </nav>
                </div>
