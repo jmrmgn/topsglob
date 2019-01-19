@@ -5,7 +5,9 @@ import {
    POST_REQUEST,
    POST_ERROR,
    POST_SUCCESS,
-   GET_POSTS
+   GET_POSTS,
+   GET_LIKE_UNLIKE_POST,
+   GET_POST
 } from './types';
 
 export const addPost = postData => async dispatch => {
@@ -18,7 +20,7 @@ export const addPost = postData => async dispatch => {
       });
    }
    catch (err) {
-      dispatch({ type: POST_ERROR, payload: err.response.data.errors });      
+      dispatch({ type: POST_ERROR, payload: err.response.data.errors });
    }
 };
 
@@ -32,6 +34,52 @@ export const getPosts = () => async dispatch => {
       });
    }
    catch (err) {
-      dispatch({ type: POST_ERROR, payload: err.response.data.errors });      
+      dispatch({ type: POST_ERROR, payload: err.response.data.errors });
    }
-}
+};
+
+export const getPost = id => async dispatch => {
+   try {
+      const res = await axios.get(`/api/posts/${id}`);
+      dispatch({
+         type: GET_POST,
+         payload: res.data
+      });
+   }
+   catch (err) {
+      dispatch({ type: POST_ERROR, payload: err.response.data.errors });
+   }
+};
+
+export const getLikeUnlikePost = id => async dispatch => {
+   try {
+      const res = await axios.get(`/api/posts/${id}`);
+      dispatch({
+         type: GET_LIKE_UNLIKE_POST,
+         payload: res.data
+      });
+   }
+   catch (err) {
+      dispatch({ type: POST_ERROR, payload: err.response.data.errors });
+   }
+};
+
+export const likePost = id => async dispatch => {
+   try {
+      await axios.put(`/api/posts/${id}/like`);
+      dispatch(getLikeUnlikePost(id));
+   }
+   catch (err) {
+      dispatch({ type: POST_ERROR, payload: err.response.data.errors });
+   }
+};
+
+export const unlikePost = id => async dispatch => {
+   try {
+      await axios.put(`/api/posts/${id}/unlike`);
+      dispatch(getLikeUnlikePost(id));
+   }
+   catch (err) {
+      dispatch({ type: POST_ERROR, payload: err.response.data.errors });
+   }
+};

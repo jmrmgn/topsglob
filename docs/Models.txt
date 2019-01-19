@@ -16,16 +16,16 @@ Post
    - created_at { required }
 
 /* Features */
-Users can register and login
+DONE Users can register and login
 Users can update their info (Private)
 Users can change password (Private)
 Users can view other user
 Users can view all users
 Users can view who the hell likes of post
 
-Users can view posts 
+DONE Users can view posts 
 Users can view single post
-Users can create post (Private)
+DONE Users can create post (Private)
 Users can update post (Private)
 Users can delete post (Private)
 Users can toggle like post (Private)

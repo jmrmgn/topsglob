@@ -1,48 +1,76 @@
-import React from 'react';
+import React, { Component } from 'react';
+import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
-const PostItem = props => {
-   const { user, content, created } = props;
+import { connect } from 'react-redux';
+import { likePost, unlikePost } from '../../actions/postActions';
 
-   return (
-      <div className="block m-t-md">
-         <div className="box">
-            <article className="media">
-               <div className="media-left">
-                  <figure className="image is-64x64">
-                     <img src="https://bulma.io/images/placeholders/128x128.png" alt="" />
-                  </figure>
-               </div>
-               <div className="media-content">
-                  <div className="content">
-                     <p>
-                        <strong>{user.username}</strong> <small>{user.email}</small>
-                        <br />
-                        <label className="is-size-6">{created}</label>
-                        <br/>
-                        {content}
-                     </p>
+class PostItem extends Component {
+   onLike = id => {
+      this.props.likePost(id);
+   }
+
+   onUnlike = id => {
+      this.props.unlikePost(id);
+   }
+
+   findUserLike = likes => {
+      const { user } = this.props.auth;
+      return (likes.filter(like => like.user === user.id).length > 0 ? true: false);
+   }
+
+   render() {
+      const { post } = this.props;
+
+      return (
+         <div className="block m-t-md">
+            <div className="box">
+               <article className="media">
+                  <div className="media-left">
+                     <figure className="image is-64x64">
+                        <img src="https://bulma.io/images/placeholders/128x128.png" alt="" />
+                     </figure>
                   </div>
-                  <nav className="level is-mobile">
-                     <div className="level-left">
-                        {/* <a href="/" className="level-item" aria-label="reply" onClick={e => e.preventDefault()}> */}
-                           <span className="icon is-small like-button" onClick={() => alert("Test")}>
+                  <div className="media-content">
+                     <div className="content">
+                        <p>
+                           <strong>{post.user.username}</strong> <small>{post.user.email}</small>
+                           <br />
+                           <label className="is-size-6">{post.createdAt}</label>
+                           <br/>
+                           {post.content}
+                        </p>
+                     </div>
+                     <nav className="level is-mobile">
+                        <div className="level-left">
+                           <span
+                              className={classnames('icon is-small like-button', { 'unlike-button': this.findUserLike(post.likes) })}
+                              onClick={
+                                 (!this.findUserLike(post.likes))
+                                    ? this.onLike.bind(this, post._id)
+                                    : this.onUnlike.bind(this, post._id)
+                              }
+                           >
                               <i className="fas fa-thumbs-up"></i>
                            </span>
-                        {/* </a> */}
-                     </div>
-                  </nav>
-               </div>
-            </article>
+                        </div>
+                     </nav>
+                  </div>
+               </article>
+            </div>
          </div>
-      </div>
-   );
+      );
+   }
 };
 
 PostItem.propTypes = {
-   user: PropTypes.object.isRequired,
-   content: PropTypes.string.isRequired,
-   created: PropTypes.string.isRequired
-}
+   post: PropTypes.object.isRequired,
+   likePost: PropTypes.func.isRequired,
+   unlikePost: PropTypes.func.isRequired
+};
 
-export default PostItem;
+const mapStateToProps = state => ({
+   auth: state.auth
+});
+
+export default connect(mapStateToProps, { likePost, unlikePost })(PostItem);

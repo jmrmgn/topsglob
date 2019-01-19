@@ -23,9 +23,7 @@ class PostMain extends Component {
             ? docs.map((post, index) => {
                return(
                   <PostItem key={index}
-                     user={post.user}
-                     content={post.content}
-                     created={post.createdAt}
+                     post={post}
                   />
                );
             })

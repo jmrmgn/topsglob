@@ -1,5 +1,5 @@
 import { 
-   POST_LOADING, POST_REQUEST, POST_SUCCESS, POST_ERROR, GET_POSTS
+   POST_LOADING, POST_REQUEST, POST_SUCCESS, POST_ERROR, GET_POSTS, GET_POST, GET_LIKE_UNLIKE_POST
 } from '../actions/types';
 
 const initialState = {
@@ -24,6 +24,24 @@ export default (state = initialState, action) => {
             ...state,
             isFetching: false,
             posts: action.payload
+         };
+      
+      case GET_POST:
+         return {
+            ...state,
+            posts: action.payload,
+            isFetching: false
+         };
+      
+      case GET_LIKE_UNLIKE_POST:
+         return {
+            ...state,            
+            posts: {
+               ...state.posts,
+               docs: state.posts.docs.map(post => {
+                  return post = post._id === action.payload._id ? action.payload : post;
+               })
+            }
          };
 
       case POST_REQUEST:

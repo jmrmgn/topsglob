@@ -30,7 +30,7 @@ exports.getPosts = async (req, res, next) => {
 
 exports.getPost = async (req, res, next) => {
    try {
-      const post = await Post.findOne({ _id: req.params.postId });
+      const post = await Post.findOne({ _id: req.params.postId }).populate('user', 'username email').sort('-createdAt');
       if (!post) {
          return next(throwError("Post not found", 404));
       }

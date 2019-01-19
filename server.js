@@ -34,7 +34,7 @@ app.use( (err, req, res, next) => {
 });
 
 mongoose.connect(
-   keys.mongoURICloud,
+   keys.mongoURI,
    {
       useNewUrlParser: true
    }
