@@ -85,6 +85,14 @@
   }
 }
 
+.media, .media-content {
+  overflow-y: hidden !important;
+}
+
+.card-user {
+  min-height: 200px !important;
+}
+
 .like-button {
   border: none;
 }
@@ -104,4 +112,8 @@
   color: #222222;
   border: none;
   outline: 0 !important;
+}
+
+.column-user {
+  min-height: 250px;
 }

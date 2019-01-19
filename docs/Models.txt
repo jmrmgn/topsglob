@@ -20,7 +20,7 @@ DONE Users can register and login
 Users can update their info (Private)
 Users can change password (Private)
 Users can view other user
-Users can view all users
+DONE Users can view all users
 Users can view who the hell likes of post
 
 DONE Users can view posts 
