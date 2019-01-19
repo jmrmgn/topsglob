@@ -117,6 +117,7 @@ exports.postLogin = async (req, res, next) => {
             const payload = {
                id: user._id,
                username: user.username,
+               bio: user.bio,
                email: user.email,
                createdAt: user.createdAt
             };
@@ -149,10 +150,10 @@ exports.getUserProfile = async (req, res, next) => {
 
 exports.putUserProfile = async (req, res, next) => {
    try {
-      const errors = validationResult(req);
-
+      const errors = validationResult(req).formatWith(({ msg }) => msg);
+   
       if (!errors.isEmpty()) {
-         return next(throwError(errors.array(), 422));
+         return next(throwError(errors.mapped(), 422));
       }
       
       const user = await User.findById(req.user._id);
@@ -163,7 +164,22 @@ exports.putUserProfile = async (req, res, next) => {
       else {
          user.bio = req.body.bio;
          await user.save();
-         return res.status(201).json({ msg: "Profile successfully updated" });
+         // return res.status(201).json({ msg: "Profile successfully updated" });
+         
+         // Create jwt
+         const payload = {
+            id: user._id,
+            username: user.username,
+            bio: user.bio,
+            email: user.email,
+            createdAt: user.createdAt
+         };
+
+         // Signing in the jwt
+         const token = await jwt.sign(payload, keys.secret, { expiresIn: 3600 });
+         return res.json({
+            token: `Bearer ${token}`
+         });
       }
    }
    catch (err) {

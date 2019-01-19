@@ -48,7 +48,7 @@ module.exports = {
    ],
    validatePutCurrentProfile: [
       body('bio')
-         .isLength({ max: 200 }).withMessage('Bio can\'t exceed of 200 characters')
+         .isLength({ max: 50 }).withMessage('Bio can\'t exceed of 50 characters')
    ],
    validatePutChangePassword: [
       body('currentPassword')

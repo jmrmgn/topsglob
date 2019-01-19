@@ -7,6 +7,7 @@ export const AUTH_REQUEST = 'AUTH_REQUEST';
 export const AUTH_ERROR = 'AUTH_ERROR';
 export const AUTH_SUCCESS = 'AUTH_SUCCESS';
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
+export const UPDATE_PROFILE = 'UPDATE_PROFILE';
 
 // POST
 export const POST_LOADING = 'POST_LOADING';

@@ -1,0 +1,2 @@
+PostForm - validation is staying
+Profile Information - validation for maximum characters

@@ -6,7 +6,7 @@ import { setAuthToken } from '../utils/setAuthToken';
 import { showFlash, hideFlash } from './flashActions';
 
 import {
-   AUTH_REQUEST, AUTH_ERROR, AUTH_SUCCESS, SET_CURRENT_USER
+   AUTH_REQUEST, AUTH_ERROR, AUTH_SUCCESS, SET_CURRENT_USER, UPDATE_PROFILE
 } from './types';
 
 export const postRegister = (userData, history) => async dispatch => {
@@ -29,7 +29,6 @@ export const postLogin = (userData, history) => async dispatch => {
       await dispatch({ type: AUTH_REQUEST });
       const res = await axios.post('/api/users/login', userData);
       
-      // Get the token
       const { token } = res.data;
       // Set the token to Local Storage
       localStorage.setItem('jwtToken', token);
@@ -57,7 +56,33 @@ export const setCurrentUser = decoded => {
       type: SET_CURRENT_USER,
       payload: decoded
    }
-}
+};
+
+export const updateUserProfile = data => async dispatch => {
+   try {
+      dispatch({ type: AUTH_REQUEST });
+      const res = await axios.put('/api/users/profile', data);
+      dispatch({
+         type: UPDATE_PROFILE,
+         payload: data.bio
+      });
+
+      // Get the token
+      const { token } = res.data;
+      // Set the token to Local Storage
+      localStorage.setItem('jwtToken', token);
+      // Set token to auth header
+      setAuthToken(token);
+      // Decode the token to get the user data
+      const decoded = jwt_decode(token);
+      // set current user
+      dispatch(setCurrentUser(decoded));
+      dispatch({ type: AUTH_SUCCESS });
+   }
+   catch(err) {
+      dispatch({ type: AUTH_ERROR, payload: err.response.data.errors });
+   }
+};
 
 export const logoutUser = () => dispatch => {
    // Remove token from Localstorage
