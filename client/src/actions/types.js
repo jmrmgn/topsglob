@@ -17,6 +17,7 @@ export const GET_LIKE_UNLIKE_POST = 'GET_LIKE_UNLIKE_POST';
 export const POST_REQUEST = 'POST_REQUEST';
 export const POST_ERROR = 'POST_ERROR';
 export const POST_SUCCESS = 'POST_SUCCESS';
+export const DELETE_POST = 'DELETE_POST';
 
 // USERS
 export const USER_LOADING = 'USER_LOADING';

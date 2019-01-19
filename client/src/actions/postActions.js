@@ -8,7 +8,8 @@ import {
    GET_POSTS,
    GET_LIKE_UNLIKE_POST,
    GET_POST,
-   GET_USER_POST
+   GET_USER_POST,
+   DELETE_POST
 } from './types';
 
 export const addPost = postData => async dispatch => {
@@ -93,7 +94,19 @@ export const getCurrentPosts = userId => async dispatch => {
          type: GET_USER_POST,
          payload: res.data
       });
-      console.log(res.data);
+   }
+   catch (err) {
+      dispatch({ type: POST_ERROR, payload: err.response.data.errors });
+   }
+};
+
+export const deletePost = postId => async dispatch => {
+   try {
+      await axios.delete(`/api/posts/${postId}`);
+      dispatch({
+         type: DELETE_POST,
+         payload: postId
+      })
    }
    catch (err) {
       dispatch({ type: POST_ERROR, payload: err.response.data.errors });

@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
+
 import { connect } from 'react-redux';
-import { likePost, unlikePost } from '../../actions/postActions';
+import { likePost, unlikePost, deletePost } from '../../actions/postActions';
 
 class PostItem extends Component {
    onLike = id => {
@@ -19,8 +23,27 @@ class PostItem extends Component {
       return (likes.filter(like => like.user === user.id).length > 0 ? true: false);
    }
 
+   onDelete = id => {
+      confirmAlert({
+         title: 'Confirm to submit',
+         message: 'Are you sure to do this.',
+         buttons: [
+            {
+               label: 'Yes',
+               onClick: () => {
+                  this.props.deletePost(id);
+               }
+            },
+            {
+               label: 'No',
+            }
+         ]
+       })
+   }
+
    render() {
       const { post } = this.props;
+      const { user } = this.props.auth;
 
       return (
          <div className="block m-t-md">
@@ -62,6 +85,25 @@ class PostItem extends Component {
                         </div>
                      </nav>
                   </div>
+                  {
+                     (user.id === post.user._id)
+                        ?
+                        <React.Fragment>
+                           <a href="/edit" title="Edit">
+                              <i className="fas fa-pencil-alt"></i>
+                           </a>
+                           <div
+                              className="m-l-sm"
+                              title="Delete"
+                              style={{ cursor: 'pointer' }}
+                              onClick={this.onDelete.bind(this, post._id)}
+                           >
+                              <i className="fas fa-trash has-text-danger"></i>
+                           </div>
+                        </React.Fragment>
+                        : null
+                  }
+                     
                </article>
             </div>
          </div>
@@ -72,11 +114,12 @@ class PostItem extends Component {
 PostItem.propTypes = {
    post: PropTypes.object.isRequired,
    likePost: PropTypes.func.isRequired,
-   unlikePost: PropTypes.func.isRequired
+   unlikePost: PropTypes.func.isRequired,
+   deletePost: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
    auth: state.auth
 });
 
-export default connect(mapStateToProps, { likePost, unlikePost })(PostItem);
+export default connect(mapStateToProps, { likePost, unlikePost, deletePost })(PostItem);
