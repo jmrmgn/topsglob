@@ -26,6 +26,7 @@ import Posts from './components/posts/Posts';
 import Users from './components/users/Users';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
+import Profile from './components/users/user/Profile';
 
 // Check for token
 const token = localStorage.jwtToken;
@@ -67,6 +68,7 @@ class App extends Component {
                      <PrivateRoute exact path="/users" component={Users} />
                      <Route exact path="/register" component={Register} />
                      <Route exact path="/login" component={Login} />
+                     <PrivateRoute exact path="/profile" component={Profile} />
                   </Switch>
                </div>
             </div>

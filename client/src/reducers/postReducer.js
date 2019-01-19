@@ -63,7 +63,10 @@ export default (state = initialState, action) => {
             ...state,
             isPosting: false,
             errors: {},
-            posts: [action.payload, ...state.posts]
+            posts: {
+               ...state.posts,
+               docs: [action.payload, ...state.posts.docs]
+            }
          };
 
       default:

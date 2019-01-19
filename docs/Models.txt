@@ -28,7 +28,7 @@ Users can view single post
 DONE Users can create post (Private)
 Users can update post (Private)
 Users can delete post (Private)
-Users can toggle like post (Private)
+DONE Users can toggle like post (Private)
 
 /* Page design */
 Navbar

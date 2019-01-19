@@ -43,16 +43,22 @@ class PostItem extends Component {
                      </div>
                      <nav className="level is-mobile">
                         <div className="level-left">
-                           <span
-                              className={classnames('icon is-small like-button', { 'unlike-button': this.findUserLike(post.likes) })}
+                           <div
+                              href="/"
+                              className={classnames('button is-small like-button', { 'unlike-button': this.findUserLike(post.likes) })}
                               onClick={
                                  (!this.findUserLike(post.likes))
                                     ? this.onLike.bind(this, post._id)
                                     : this.onUnlike.bind(this, post._id)
                               }
                            >
-                              <i className="fas fa-thumbs-up"></i>
-                           </span>
+                              <span className="icon is-small">
+                                 <i className="fas fa-thumbs-up"></i>
+                              </span>
+                              <span>
+                                 {post.likes && (post.likes.length > 0) ? post.likes.length : null } 
+                              </span>
+                           </div>
                         </div>
                      </nav>
                   </div>

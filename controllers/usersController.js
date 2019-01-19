@@ -106,7 +106,9 @@ exports.postLogin = async (req, res, next) => {
             // Create jwt
             const payload = {
                id: user._id,
-               username: user.username
+               username: user.username,
+               email: user.email,
+               createdAt: user.createdAt
             };
 
             // Signing in the jwt

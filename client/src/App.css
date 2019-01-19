@@ -85,16 +85,23 @@
   }
 }
 
-.like-button:hover {
-  cursor: pointer;
+.like-button {
+  border: none;
+}
+
+.like-button:hover, .like-button:focus {
   color: #209cee;
+  border: none;
+  outline: 0 !important;
 }
 
 .unlike-button {
   color: #209cee;
+  border: none;
 }
 
-.unlike-button:hover {
-  cursor: pointer;
+.unlike-button:hover, .unlike-button:focus {
   color: #222222;
+  border: none;
+  outline: 0 !important;
 }
