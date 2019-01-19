@@ -46,7 +46,17 @@ exports.getUser = async (req, res, next) => {
 exports.getUserPosts = async (req, res, next) => {
    try {
       const userId = req.params.userId;
-      const userPosts = await Post.find({ user: userId });
+      const query = Post.find({ user: userId });
+      const { page, perPage } = req.query;
+      const options = {
+         page: parseInt(page, 10) || 1,
+         limit: parseInt(perPage, 10) || 10,
+         populate: [{path:'user', select:"username email"}],
+         sort: '-createdAt'
+      };
+
+      const userPosts = await Post.paginate(query, options);
+
       return (userPosts)
          ? res.json(userPosts)
          : res.json({});

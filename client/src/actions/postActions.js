@@ -7,7 +7,8 @@ import {
    POST_SUCCESS,
    GET_POSTS,
    GET_LIKE_UNLIKE_POST,
-   GET_POST
+   GET_POST,
+   GET_USER_POST
 } from './types';
 
 export const addPost = postData => async dispatch => {
@@ -78,6 +79,21 @@ export const unlikePost = id => async dispatch => {
    try {
       await axios.put(`/api/posts/${id}/unlike`);
       dispatch(getLikeUnlikePost(id));
+   }
+   catch (err) {
+      dispatch({ type: POST_ERROR, payload: err.response.data.errors });
+   }
+};
+
+export const getCurrentPosts = userId => async dispatch => {
+   try {
+      await dispatch({ type: POST_LOADING });
+      const res = await axios.get(`/api/users/${userId}/posts`);
+      dispatch({
+         type: GET_USER_POST,
+         payload: res.data
+      });
+      console.log(res.data);
    }
    catch (err) {
       dispatch({ type: POST_ERROR, payload: err.response.data.errors });

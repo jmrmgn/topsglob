@@ -12,6 +12,7 @@ export const SET_CURRENT_USER = 'SET_CURRENT_USER';
 export const POST_LOADING = 'POST_LOADING';
 export const GET_POSTS = 'GET_POSTS';
 export const GET_POST = 'GET_POST';
+export const GET_USER_POST = 'GET_USER_POST';
 export const GET_LIKE_UNLIKE_POST = 'GET_LIKE_UNLIKE_POST';
 export const POST_REQUEST = 'POST_REQUEST';
 export const POST_ERROR = 'POST_ERROR';
