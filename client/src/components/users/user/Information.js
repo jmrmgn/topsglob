@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import TextAreaFieldGroup from '../../common/TextAreaFieldGroup';
+import InformationItem from './InformationItem';
 
 import { connect } from 'react-redux';
 import { updateUserProfile } from '../../../actions/authActions';
@@ -66,59 +67,39 @@ class Information extends Component {
             ? bio
             : "No bio yet.";
 
-      const buttonState = onEdit 
-            ? <div
-                  className="card-footer-item has-text-info"
-                  style={{ cursor: 'pointer' }}
-                  onClick={this.onSave.bind(this)}
-               >
-                  {
-                     (isPosting)
-                        ? <i className="fas fa-spinner fa-spin"></i>
-                        : ('Save')
-                  }
-               </div>
-            :  <div
-                  className="card-footer-item has-text-info"
-                  style={{ cursor: 'pointer' }}
-                  onClick={this.onEdit.bind(this)}
-               >
-                  Edit
-               </div>
+      const buttonState =  onEdit 
+            ? 
+               <footer className="card-footer">
+                  <div
+                     className="card-footer-item has-text-info"
+                     style={{ cursor: 'pointer' }}
+                     onClick={this.onSave.bind(this)}
+                  >
+                     {
+                        (isPosting)
+                           ? <i className="fas fa-spinner fa-spin"></i>
+                           : ('Save')
+                     }
+                  </div>
+               </footer>
+            :  
+               <footer className="card-footer">
+                  <div
+                     className="card-footer-item has-text-info"
+                     style={{ cursor: 'pointer' }}
+                     onClick={this.onEdit.bind(this)}
+                  >
+                     Edit
+                  </div>
+               </footer>;
       
 
       return (
-         <div className="card">
-            <header className="card-header">
-               <p className="card-header-title">
-                  Information
-               </p>
-            </header>
-            <div className="card-content">
-               <div className="content content-info">
-                  <div className="level">
-                     <div className="level-item has-text-centered">
-                        <figure className="image is-96x96">
-                           <img src="https://bulma.io/images/placeholders/96x96.png" alt="" />
-                        </figure>
-                     </div>
-                  </div>
-                  <div className="has-text-centered">
-                     <label htmlFor="username" className="title is-size-4">{user.username}</label>
-                     <br/>
-                     <label htmlFor="email" className="subtitle">{user.email}</label>
-                  </div>
-                  <div className="has-text-centered m-t-sm">
-                     {fieldBio}
-                  </div>
-                  <br/>
-                  <small>Joined since: {user.createdAt}</small>
-               </div>
-            </div>
-            <footer className="card-footer">
-               {buttonState}
-            </footer>
-         </div>
+         <InformationItem
+            user={user}
+            fieldBio={fieldBio}
+            buttonState={buttonState}
+         />
       )
    }
 }
