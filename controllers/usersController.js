@@ -198,10 +198,10 @@ exports.putUserChangePassword = async (req, res, next) => {
          return next(throwError("Unauthorized", 401));
       }
       else {
-         const errors = validationResult(req);
-
+         const errors = validationResult(req).formatWith(({ msg }) => msg);
+   
          if (!errors.isEmpty()) {
-            return res.status(422).json({ errors: errors.array() });
+            return next(throwError(errors.mapped(), 422));
          }
 
          const isMatch = await bcrypt.compare(currentPassword, user.password);
@@ -213,7 +213,7 @@ exports.putUserChangePassword = async (req, res, next) => {
             user.password = hashNewPw;
             await user.save();
 
-            return res.status(201).json({ msg: "Password successfully changed"});
+            return res.status(201).json({ msg: "Password successfully changed" });
          }
       }
    }

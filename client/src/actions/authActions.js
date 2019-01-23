@@ -84,6 +84,22 @@ export const updateUserProfile = data => async dispatch => {
    }
 };
 
+export const changePassword = (userData, history) => async dispatch => {
+   try {
+      dispatch({ type: AUTH_REQUEST });
+      await axios.put('/api/users/changePassword', userData);
+      dispatch({ type: AUTH_SUCCESS });
+      dispatch(hideFlash());
+      history.push('/profile');
+   }
+   catch(err) {
+      dispatch({ type: AUTH_ERROR, payload: err.response.data.errors });
+      (typeof err.response.data.errors === 'string')
+         ? dispatch(showFlash(err.response.data))
+         : dispatch(hideFlash());
+   }
+};
+
 export const logoutUser = () => dispatch => {
    // Remove token from Localstorage
    localStorage.removeItem('jwtToken');

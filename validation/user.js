@@ -54,9 +54,12 @@ module.exports = {
       body('currentPassword')
          .not().isEmpty().withMessage('Current password is required'),
       body('newPassword')
-         .isLength({ min: 8, max: 100 }).withMessage('New password must be at least 8 characters')
+         .not().isEmpty().withMessage('New password is required')
+         .isLength({ min: 8, max: 100 }).withMessage('New password must be at least 8 characters'),
+      body('newPassword2')
+         .not().isEmpty().withMessage('Confirm password is required')
          .custom((value, {req}) => {
-            if (value !== req.body.newPassword2) {
+            if (value !== req.body.newPassword) {
                throw new Error('Passwords doesn\'t match');
             }
             else {

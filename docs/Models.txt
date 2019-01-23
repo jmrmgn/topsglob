@@ -17,9 +17,9 @@ Post
 
 /* Features */
 DONE Users can register and login
-Users can update their info (Private)
-Users can change password (Private)
-Users can view other user
+DONE Users can update their info (Private)
+DONE Users can change password (Private)
+DONE Users can view other user
 DONE Users can view all users
 Users can view who the hell likes of post
 
@@ -27,7 +27,7 @@ DONE Users can view posts
 Users can view single post
 DONE Users can create post (Private)
 Users can update post (Private)
-Users can delete post (Private)
+DONE Users can delete post (Private)
 DONE Users can toggle like post (Private)
 
 /* Page design */
