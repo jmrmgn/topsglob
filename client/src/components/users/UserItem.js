@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const UserItem = props => {
-   const { _id, username, email, bio, createdAt } = props.user;
+   const { _id, username, email, bio } = props.user;
 
    return (
       <React.Fragment>

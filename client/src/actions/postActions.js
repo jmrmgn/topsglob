@@ -12,8 +12,6 @@ import {
    DELETE_POST
 } from './types';
 
-import { showFlash, hideFlash } from './flashActions';
-
 export const addPost = postData => async dispatch => {
    try {
       dispatch({ type: POST_REQUEST });

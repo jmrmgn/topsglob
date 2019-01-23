@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
+import isEmpty from '../../validation/isEmpty';
 
 import TextAreaFieldGroup from '../common/TextAreaFieldGroup';
 
@@ -22,7 +23,9 @@ class PostForm extends Component {
    }
 
    onChange = e => {
-      this.setState({ [e.target.name]: e.target.value });
+      this.setState({
+         [e.target.name]: e.target.value
+      });
    }
 
    onSubmit = async e => {
@@ -57,7 +60,10 @@ class PostForm extends Component {
                      />
                      <div className="field m-t-sm">
                         <div className="control">
-                           <button className={classnames('button is-info', {'is-loading': isPosting})}>Create Post</button>
+                           <button
+                              className={classnames('button is-info', {'is-loading': isPosting})}
+                              disabled={(isEmpty(content) || content.length <= 9) ? true : false}
+                           >Create Post</button>
                         </div>
                      </div>
                   </form>
