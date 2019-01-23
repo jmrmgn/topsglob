@@ -12,6 +12,8 @@ import {
    DELETE_POST
 } from './types';
 
+import { showFlash, hideFlash } from './flashActions';
+
 export const addPost = postData => async dispatch => {
    try {
       dispatch({ type: POST_REQUEST });
@@ -73,6 +75,7 @@ export const likePost = id => async dispatch => {
    }
    catch (err) {
       dispatch({ type: POST_ERROR, payload: err.response.data.errors });
+      alert(err.response.data);
    }
 };
 
