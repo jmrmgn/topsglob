@@ -6,11 +6,13 @@ import {
    POST_ERROR,
    POST_SUCCESS,
    GET_POSTS,
-   GET_LIKE_UNLIKE_POST,
+   GET_UPDATED_POST,
    GET_POST,
    GET_USER_POST,
    DELETE_POST
 } from './types';
+
+import { hideModal } from './modalActions';
 
 export const addPost = postData => async dispatch => {
    try {
@@ -53,11 +55,11 @@ export const getPost = id => async dispatch => {
    }
 };
 
-export const getLikeUnlikePost = id => async dispatch => {
+export const getUpdatedPost = id => async dispatch => {
    try {
       const res = await axios.get(`/api/posts/${id}`);
       dispatch({
-         type: GET_LIKE_UNLIKE_POST,
+         type: GET_UPDATED_POST,
          payload: res.data
       });
    }
@@ -69,7 +71,7 @@ export const getLikeUnlikePost = id => async dispatch => {
 export const likePost = id => async dispatch => {
    try {
       await axios.put(`/api/posts/${id}/like`);
-      dispatch(getLikeUnlikePost(id));
+      dispatch(getUpdatedPost(id));
    }
    catch (err) {
       dispatch({ type: POST_ERROR, payload: err.response.data.errors });
@@ -80,7 +82,7 @@ export const likePost = id => async dispatch => {
 export const unlikePost = id => async dispatch => {
    try {
       await axios.put(`/api/posts/${id}/unlike`);
-      dispatch(getLikeUnlikePost(id));
+      dispatch(getUpdatedPost(id));
    }
    catch (err) {
       dispatch({ type: POST_ERROR, payload: err.response.data.errors });
@@ -108,6 +110,17 @@ export const deletePost = postId => async dispatch => {
          type: DELETE_POST,
          payload: postId
       })
+   }
+   catch (err) {
+      dispatch({ type: POST_ERROR, payload: err.response.data.errors });
+   }
+};
+
+export const updatePost = (data, postId) => async dispatch => {
+   try {
+      await axios.put(`/api/posts/${postId}`, data);
+      dispatch(getUpdatedPost(postId));
+      dispatch(hideModal());
    }
    catch (err) {
       dispatch({ type: POST_ERROR, payload: err.response.data.errors });

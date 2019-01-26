@@ -1,5 +1,5 @@
 import { 
-   POST_LOADING, POST_REQUEST, POST_SUCCESS, POST_ERROR, GET_POSTS, GET_POST, GET_USER_POST, GET_LIKE_UNLIKE_POST, DELETE_POST
+   POST_LOADING, POST_REQUEST, POST_SUCCESS, POST_ERROR, GET_POSTS, GET_POST, GET_USER_POST, GET_UPDATED_POST, DELETE_POST
 } from '../actions/types';
 
 const initialState = {
@@ -29,7 +29,7 @@ export default (state = initialState, action) => {
       case GET_POST:
          return {
             ...state,
-            posts: action.payload,
+            post: action.payload,
             isFetching: false
          };
       
@@ -40,7 +40,7 @@ export default (state = initialState, action) => {
             posts: action.payload
          };
       
-      case GET_LIKE_UNLIKE_POST:
+      case GET_UPDATED_POST:
          return {
             ...state,            
             posts: {
@@ -58,7 +58,16 @@ export default (state = initialState, action) => {
                ...state.posts,
                docs: state.posts.docs.filter(post => post._id !== action.payload)
             }
-         }
+         };
+
+      // case UPDATE_POST:
+      //    return {
+      //       ...state,
+      //       posts: {
+      //          ...state.posts,
+      //          // docs: TODO
+      //       }
+      //    }
 
       case POST_REQUEST:
          return {

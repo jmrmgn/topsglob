@@ -79,10 +79,10 @@ exports.putPost = async (req, res, next) => {
       else {
          if ( post.user.toString() === req.user._id.toString()) {
 
-            const errors = validationResult(req);
-
+            const errors = validationResult(req).formatWith(({ msg }) => msg);
+         
             if (!errors.isEmpty()) {
-               return next(throwError(errors.array(), 422));
+               return next(throwError(errors.mapped(), 422));
             }
 
             post.content = req.body.content;

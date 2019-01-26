@@ -41,7 +41,7 @@ class PostItem extends Component {
    }
 
    render() {
-      const { post } = this.props;
+      const { post, onEdit } = this.props;
       const { user } = this.props.auth;
 
       return (
@@ -88,9 +88,13 @@ class PostItem extends Component {
                      (user.id === post.user._id)
                         ?
                         <React.Fragment>
-                           <a href="/edit" title="Edit">
+                           <div
+                              title="Edit"
+                              style={{ cursor: 'pointer' }}
+                              onClick={onEdit}
+                           >
                               <i className="fas fa-pencil-alt"></i>
-                           </a>
+                           </div>
                            <div
                               className="m-l-sm"
                               title="Delete"

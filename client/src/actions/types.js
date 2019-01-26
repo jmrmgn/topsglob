@@ -2,6 +2,10 @@
 export const SHOW_FLASH = 'SHOW_FLASH';
 export const HIDE_FLASH = 'HIDE_FLASH';
 
+// FLASH
+export const SHOW_MODAL = 'SHOW_MODAL';
+export const HIDE_MODAL = 'HIDE_MODAL';
+
 // AUTH
 export const AUTH_REQUEST = 'AUTH_REQUEST';
 export const AUTH_ERROR = 'AUTH_ERROR';
@@ -14,7 +18,7 @@ export const POST_LOADING = 'POST_LOADING';
 export const GET_POSTS = 'GET_POSTS';
 export const GET_POST = 'GET_POST';
 export const GET_USER_POST = 'GET_USER_POST';
-export const GET_LIKE_UNLIKE_POST = 'GET_LIKE_UNLIKE_POST';
+export const GET_UPDATED_POST = 'GET_UPDATED_POST';
 export const POST_REQUEST = 'POST_REQUEST';
 export const POST_ERROR = 'POST_ERROR';
 export const POST_SUCCESS = 'POST_SUCCESS';

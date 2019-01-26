@@ -2,16 +2,26 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import PostItem from './PostItem';
+import PostEditForm from './PostEditForm';
 import PostContentLoader from '../common/PostsContentLoader';
+import Modal from '../common/Modal';
 
 import { connect } from 'react-redux';
-import { getPosts } from '../../actions/postActions';
+import { getPosts, getPost } from '../../actions/postActions';
+import { showModal, hideModal } from '../../actions/modalActions';
 
 class PostMain extends Component {
 
    componentDidMount() {
       this.props.getPosts();
    }
+
+   onCloseModal = () => { this.props.hideModal(); }
+
+   onShowModal = async id => {
+      await this.props.getPost(id);
+      await this.props.showModal();
+   };
 
    render() {
       const { isFetching } = this.props.post;
@@ -24,6 +34,7 @@ class PostMain extends Component {
                return(
                   <PostItem key={index}
                      post={post}
+                     onEdit={this.onShowModal.bind(this, post._id)}
                   />
                );
             })
@@ -31,13 +42,26 @@ class PostMain extends Component {
       : <React.Fragment>
          <PostContentLoader />
          <PostContentLoader />
-         <PostContentLoader />
          </React.Fragment>
       ;
-
-      return (         
+      
+      return (     
          <div>
             {allPosts}
+            {
+               this.props.modal.modalStatus &&
+               <Modal
+                  onOpen={this.props.modal.modalStatus}
+                  onClose={this.onCloseModal}
+                  modalTitle="Update post"
+                  modalContent={
+                     <PostEditForm
+
+                     />
+                  }
+               />
+            }
+
          </div>
       )
    }
@@ -51,7 +75,8 @@ PostMain.propTypes = {
 
 const mapStateToProps = state => ({
    auth: state.auth,
-   post: state.post
+   post: state.post,
+   modal: state.modal
 });
 
-export default connect(mapStateToProps, { getPosts })(PostMain);
+export default connect(mapStateToProps, { getPosts, getPost, showModal, hideModal })(PostMain);
