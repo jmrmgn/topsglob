@@ -24,9 +24,9 @@ DONE Users can view all users
 Users can view who the hell likes of post
 
 DONE Users can view posts 
-Users can view single post
+DONE Users can view single post
 DONE Users can create post (Private)
-Users can update post (Private)
+DONE Users can update post (Private)
 DONE Users can delete post (Private)
 DONE Users can toggle like post (Private)
 

@@ -3,16 +3,26 @@ import PropTypes from 'prop-types';
 
 import Information from './Information';
 import PostItem from '../../posts/PostItem';
+import PostEditForm from '../../posts/PostEditForm';
 import PostContentLoader from '../../common/PostsContentLoader';
+import Modal from '../../common/Modal';
 
 import { connect } from 'react-redux';
-import { getCurrentPosts } from '../../../actions/postActions';
+import { getCurrentPosts, getPost } from '../../../actions/postActions';
+import { showModal, hideModal } from '../../../actions/modalActions';
 
 class Profile extends Component {
    componentDidMount() {
       const { id } = this.props.auth.user;
       this.props.getCurrentPosts(id);
    }
+
+   onCloseModal = () => { this.props.hideModal(); }
+
+   onShowModal = async id => {
+      await this.props.getPost(id);
+      await this.props.showModal();
+   };
 
    render() {
       const { user } = this.props.auth;
@@ -27,6 +37,7 @@ class Profile extends Component {
                      return(
                         <PostItem key={index}
                            post={post}
+                           onEdit={this.onShowModal.bind(this, post._id)}
                         />
                      );
                   })
@@ -51,6 +62,17 @@ class Profile extends Component {
                <div className="tile is-child">
                   <h1 className="title">Posts</h1>
                   {allPosts}
+                  {
+                     this.props.modal.modalStatus &&
+                     <Modal
+                        onOpen={this.props.modal.modalStatus}
+                        onClose={this.onCloseModal}
+                        modalTitle="Update post"
+                        modalContent={
+                           <PostEditForm/>
+                        }
+                     />
+                  }
                </div>
             </div>
          </div>
@@ -61,12 +83,15 @@ class Profile extends Component {
 Profile.propTypes = {
    auth: PropTypes.object.isRequired,
    post: PropTypes.object.isRequired,
-   getCurrentPosts: PropTypes.func.isRequired
+   getCurrentPosts: PropTypes.func.isRequired,
+   showModal: PropTypes.func.isRequired,
+   hideModal: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
    auth: state.auth,
-   post: state.post
+   post: state.post,
+   modal: state.modal
 });
 
-export default connect(mapStateToProps, { getCurrentPosts })(Profile);
+export default connect(mapStateToProps, { getCurrentPosts, getPost, showModal, hideModal })(Profile);
