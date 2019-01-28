@@ -13,7 +13,16 @@ import { showModal, hideModal } from '../../actions/modalActions';
 class PostMain extends Component {
 
    componentDidMount() {
+      this.loadPosts();
+   }
+
+   loadPosts = () => {
       this.props.getPosts();
+   }
+
+   loadMore = () => {
+      const { limit, page } = this.props.post.posts;
+      this.props.getPosts(limit, page + 1);
    }
 
    onCloseModal = () => { this.props.hideModal(); }
@@ -48,6 +57,7 @@ class PostMain extends Component {
       return (     
          <div>
             {allPosts}
+            <button onClick={this.loadMore}>Load more</button>
             {
                this.props.modal.modalStatus &&
                <Modal

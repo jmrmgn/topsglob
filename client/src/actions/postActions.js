@@ -28,14 +28,18 @@ export const addPost = postData => async dispatch => {
    }
 };
 
-export const getPosts = () => async dispatch => {
+export const getPosts = (limit=2, page=1) => async dispatch => {
    try {
       await dispatch({ type: POST_LOADING });
-      const res = await axios.get('/api/posts');
-      dispatch({
-         type: GET_POSTS,
-         payload: res.data
-      });
+      // const res = await axios.get(`/api/posts?perPage=${limit}&page=${page}`);
+      axios.get(`/api/posts?perPage=${limit}&page=${page}`)
+         .then(res => {
+            dispatch({
+               type: GET_POSTS,
+               payload: res.data
+            });
+         })
+         .catch(err => console.log(err)); 
    }
    catch (err) {
       dispatch({ type: POST_ERROR, payload: err.response.data.errors });

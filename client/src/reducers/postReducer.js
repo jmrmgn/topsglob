@@ -5,7 +5,9 @@ import {
 const initialState = {
    isPosting: false,
    isFetching: false,
-   posts: [],
+   posts: {
+      docs: []
+   },
    post: {},
    errors: {}
 };
@@ -23,7 +25,11 @@ export default (state = initialState, action) => {
          return {
             ...state,
             isFetching: false,
-            posts: action.payload
+            posts: { 
+               ...state.posts,
+               ...action.payload,
+               docs: state.posts.docs.concat(action.payload.docs)
+            }
          };
       
       case GET_POST:
