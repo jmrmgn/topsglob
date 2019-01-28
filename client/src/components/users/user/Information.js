@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import isEmpty from '../../../validation/isEmpty';
+
 import TextAreaFieldGroup from '../../common/TextAreaFieldGroup';
 import InformationItem from './InformationItem';
 
@@ -38,9 +40,11 @@ class Information extends Component {
       const newBio = {bio};
       await this.props.updateUserProfile(newBio);
       
-      this.setState({
-         onEdit: false,
-      });
+      if (isEmpty(this.state.errors)) {
+         this.setState({
+            onEdit: false,
+         });
+      }
    }
 
    onChange = e => {

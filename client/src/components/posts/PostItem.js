@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
+import Moment from 'react-moment';
 
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
@@ -58,7 +59,7 @@ class PostItem extends Component {
                         <p>
                            <strong>{post.user.username}</strong> <small>{post.user.email}</small>
                            <br />
-                           <label className="is-size-6">{post.createdAt}</label>
+                           <label className="is-size-6"><Moment format="HH:mm YYYY-MM-DD">{post.createdAt}</Moment></label>
                            <br/>
                            {post.content}
                         </p>
@@ -80,6 +81,9 @@ class PostItem extends Component {
                               <span>
                                  {post.likes && (post.likes.length > 0) ? post.likes.length : null } 
                               </span>
+                           </div>
+                           <div className="likers">
+                              <small htmlFor="likers" style={{ cursor: 'pointer' }}>View</small>
                            </div>
                         </div>
                      </nav>

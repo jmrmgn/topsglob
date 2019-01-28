@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Moment from 'react-moment';
 
 class InformationItem extends Component {
    
@@ -31,7 +32,7 @@ class InformationItem extends Component {
                      {fieldBio}
                   </div>
                   <br/>
-                  <small>Joined since: {user.createdAt}</small>
+                  <small>Joined since: <Moment format=" HH:mm YYYY-MM-DD">{user.createdAt}</Moment></small>
                </div>
             </div>
             {buttonState}

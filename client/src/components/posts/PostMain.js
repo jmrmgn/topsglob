@@ -70,7 +70,10 @@ class PostMain extends Component {
 PostMain.propTypes = {
    auth: PropTypes.object.isRequired,
    post: PropTypes.object.isRequired,
-   getPosts: PropTypes.func.isRequired
+   modal: PropTypes.object.isRequired,
+   getPosts: PropTypes.func.isRequired,
+   showModal: PropTypes.func.isRequired,
+   hideModal: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
