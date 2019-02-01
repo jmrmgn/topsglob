@@ -1,10 +1,11 @@
 import { 
-   POST_LOADING, POST_REQUEST, POST_SUCCESS, POST_ERROR, GET_POSTS, GET_POST, GET_USER_POST, GET_UPDATED_POST, DELETE_POST
+   POST_LOADING, POST_REQUEST, POST_SUCCESS, POST_ERROR, GET_POSTS, GET_POST, GET_USER_POST, GET_UPDATED_POST, DELETE_POST, LOAD_MORE
 } from '../actions/types';
 
 const initialState = {
    isPosting: false,
    isFetching: false,
+   loadMore: false,
    posts: {
       docs: []
    },
@@ -21,10 +22,17 @@ export default (state = initialState, action) => {
             isFetching: true
          };
       
+      case LOAD_MORE:
+         return {
+            ...state,
+            loadMore: true
+         };
+      
       case GET_POSTS:
          return {
             ...state,
             isFetching: false,
+            loadMore: false,
             posts: { 
                ...state.posts,
                ...action.payload,

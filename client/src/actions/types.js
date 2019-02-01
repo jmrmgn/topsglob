@@ -15,6 +15,7 @@ export const UPDATE_PROFILE = 'UPDATE_PROFILE';
 
 // POST
 export const POST_LOADING = 'POST_LOADING';
+export const LOAD_MORE = 'LOAD_MORE';
 export const GET_POSTS = 'GET_POSTS';
 export const GET_POST = 'GET_POST';
 export const GET_USER_POST = 'GET_USER_POST';

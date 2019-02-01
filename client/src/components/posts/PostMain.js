@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
 import PostItem from './PostItem';
@@ -33,8 +34,8 @@ class PostMain extends Component {
    };
 
    render() {
-      const { isFetching } = this.props.post;
-      const { docs } = this.props.post.posts;
+      const { isFetching, loadMore } = this.props.post;
+      const { docs, page, pages } = this.props.post.posts;
 
       const allPosts = (!isFetching)
       ?
@@ -57,7 +58,17 @@ class PostMain extends Component {
       return (     
          <div>
             {allPosts}
-            <button onClick={this.loadMore}>Load more</button>
+            {
+               (pages > page) &&
+               <div className="control">
+                  <button
+                     onClick={this.loadMore}
+                     className={classnames('button is-fullwidth m-t-md', { 'is-loading': loadMore })}
+                  >
+                     Load more
+                  </button>
+               </div>
+            }
             {
                this.props.modal.modalStatus &&
                <Modal

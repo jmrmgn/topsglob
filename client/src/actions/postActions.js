@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import {
    POST_LOADING,
+   LOAD_MORE,
    POST_REQUEST,
    POST_ERROR,
    POST_SUCCESS,
@@ -28,18 +29,20 @@ export const addPost = postData => async dispatch => {
    }
 };
 
-export const getPosts = (limit=2, page=1) => async dispatch => {
+export const getPosts = (limit=5, page=1) => async dispatch => {
    try {
-      await dispatch({ type: POST_LOADING });
-      // const res = await axios.get(`/api/posts?perPage=${limit}&page=${page}`);
-      axios.get(`/api/posts?perPage=${limit}&page=${page}`)
-         .then(res => {
-            dispatch({
-               type: GET_POSTS,
-               payload: res.data
-            });
-         })
-         .catch(err => console.log(err)); 
+      if (page > 1) {
+         await dispatch({ type: LOAD_MORE });
+      }
+      else {
+         await dispatch({ type: POST_LOADING });
+      }
+      
+      const res = await axios.get(`/api/posts?perPage=${limit}&page=${page}`);
+      dispatch({
+         type: GET_POSTS,
+         payload: res.data
+      });
    }
    catch (err) {
       dispatch({ type: POST_ERROR, payload: err.response.data.errors });
