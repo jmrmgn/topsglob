@@ -13,12 +13,13 @@ class Users extends Component {
    }
 
    render() {
-      const { users } = this.props.user;
+      const { users, isFetching } = this.props.user;
 
       return (
          <div>
             <UserMain
                users={users}
+               isFetching={isFetching}
             />
          </div>
       )

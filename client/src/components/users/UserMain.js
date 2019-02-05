@@ -5,19 +5,22 @@ import UserItem from './UserItem';
 
 class UserMain extends Component {
    render() {
-      const { users } = this.props;
+      const { users, isFetching } = this.props;
       
-      const allUsers = (users.length > 0) 
-            ? users.map((user, index) => {
-               return (
-                  <div className="column is-3" key={index}>
-                     <UserItem
-                        user={user}
-                     />
-                  </div>
-               );
-            })
-            : (<h1>Loading...</h1>)
+      const allUsers = 
+         (isFetching)
+            ? <h1>Loading...</h1>
+            : (users.length > 0) 
+               ? users.map((user, index) => {
+                  return (
+                     <div className="column is-3" key={index}>
+                        <UserItem
+                           user={user}
+                        />
+                     </div>
+                  );
+               })
+               : (<h1>No users yet.</h1>)
       return (
          <div className="columns is-multiline">
             {allUsers}

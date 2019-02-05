@@ -19,7 +19,10 @@ export default (state = initialState, action) => {
       case POST_LOADING:
          return {
             ...state,
-            isFetching: true
+            isFetching: true,
+            posts: {
+               docs: []
+            }
          };
       
       case LOAD_MORE:

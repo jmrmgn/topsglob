@@ -29,7 +29,7 @@ export const addPost = postData => async dispatch => {
    }
 };
 
-export const getPosts = (limit=5, page=1) => async dispatch => {
+export const getPosts = (limit=1, page=1) => async dispatch => {
    try {
       if (page > 1) {
          await dispatch({ type: LOAD_MORE });

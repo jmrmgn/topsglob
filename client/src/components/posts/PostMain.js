@@ -39,7 +39,7 @@ class PostMain extends Component {
 
       const allPosts = (!isFetching)
       ?
-         (docs)
+         (docs.length !== 0)
             ? docs.map((post, index) => {
                return(
                   <PostItem key={index}
@@ -48,7 +48,7 @@ class PostMain extends Component {
                   />
                );
             })
-            : <h1>No posts</h1>
+            : <h1 className="m-t-md">No posts</h1>
       : <React.Fragment>
          <PostContentLoader />
          <PostContentLoader />
