@@ -39,6 +39,11 @@ class PostForm extends Component {
       };
 
       await this.props.addPost(newPost);
+
+      if (isEmpty(this.state.errors)) {
+         this.setState({ content: '' });
+      }
+      
    }
 
    render() {

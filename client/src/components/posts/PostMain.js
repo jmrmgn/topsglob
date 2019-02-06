@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
 import PostItem from './PostItem';
@@ -15,6 +14,23 @@ class PostMain extends Component {
 
    componentDidMount() {
       this.loadPosts();
+      window.addEventListener('scroll', this.handleScroll);
+   }
+
+   handleScroll = () => {
+      const windowHeight = "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
+      const body = document.body;
+      const html = document.documentElement;
+      const docHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight);
+      const windowBottom = windowHeight + window.pageYOffset;
+      
+      const { page, pages } = this.props.post.posts;
+
+      if (windowBottom >= docHeight) {
+         if (page < pages) {
+            this.loadMore();
+         }
+      }
    }
 
    loadPosts = () => {
@@ -34,8 +50,8 @@ class PostMain extends Component {
    };
 
    render() {
-      const { isFetching, loadMore } = this.props.post;
-      const { docs, page, pages } = this.props.post.posts;
+      const { isFetching } = this.props.post;
+      const { docs } = this.props.post.posts;
 
       const allPosts = (!isFetching)
       ?
@@ -54,21 +70,10 @@ class PostMain extends Component {
          <PostContentLoader />
          </React.Fragment>
       ;
-      
+
       return (     
          <div>
             {allPosts}
-            {
-               (pages > page) &&
-               <div className="control">
-                  <button
-                     onClick={this.loadMore}
-                     className={classnames('button is-fullwidth m-t-md', { 'is-loading': loadMore })}
-                  >
-                     Load more
-                  </button>
-               </div>
-            }
             {
                this.props.modal.modalStatus &&
                <Modal
@@ -76,13 +81,10 @@ class PostMain extends Component {
                   onClose={this.onCloseModal}
                   modalTitle="Update post"
                   modalContent={
-                     <PostEditForm
-
-                     />
+                     <PostEditForm/>
                   }
                />
             }
-
          </div>
       )
    }
