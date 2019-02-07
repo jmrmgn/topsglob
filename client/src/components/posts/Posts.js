@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import ErrorBoundary from '../common/ErrorBoundary';
 
 import PostForm from './PostForm';
 import PostMain from './PostMain';
@@ -8,6 +9,7 @@ import PostContentLoader from '../common/PostsContentLoader';
 import { connect } from 'react-redux';
 
 class Posts extends Component {
+
    render() {
       const { isAuthenticated } = this.props.auth;
       const { isPosting } = this.props.post;
@@ -18,7 +20,9 @@ class Posts extends Component {
                <div className="column is-8 is-offset-2">
                   { isAuthenticated && <PostForm /> }
                   {isPosting && <PostContentLoader />}
-                  <PostMain />
+                  <ErrorBoundary>
+                     <PostMain />
+                  </ErrorBoundary>
                </div>
             </div>
          </div>
