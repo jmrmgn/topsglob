@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { NavLink, withRouter } from 'react-router-dom';
 
+import logo from '../../logo.png';
+
 import { connect } from 'react-redux';
 import { hideFlash } from '../../actions/flashActions';
 import { logoutUser } from '../../actions/authActions';
@@ -62,7 +64,7 @@ class Navbar extends Component {
             <div className="container">
                <div className="navbar-brand">
                   <NavLink className="navbar-item" to="/">
-                     <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28" alt="" />
+                     <img src={logo} width="112" height="50" alt="" />
                   </NavLink>
                   <a 
                      href="/"

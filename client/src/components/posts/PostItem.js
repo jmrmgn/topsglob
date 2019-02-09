@@ -81,10 +81,7 @@ class PostItem extends Component {
                               <span>
                                  {post.likes && (post.likes.length > 0) ? post.likes.length : null } 
                               </span>
-                           </div>
-                           <div className="likers">
-                              <small htmlFor="likers" style={{ cursor: 'pointer' }}>View</small>
-                           </div>
+                           </div>                          
                         </div>
                      </nav>
                   </div>
