@@ -1,5 +1,6 @@
-module.exports = {
-   mongoURI: 'mongodb://localhost/mern-topsglob',
-   mongoURICloud: 'mongodb://admin:test1234@ds161104.mlab.com:61104/mern-topsglob',
-   secret: 'sikretongmalupet'
+if (process.env.NODE_ENV === 'production') {
+   module.exports = require('./keys_prod');
+}
+else {
+   module.exports = require('./keys_dev');
 }
